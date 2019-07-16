@@ -4,7 +4,7 @@ This repository consist the scripts which was used for
 
 Zs. Koma, A. C. Seijmonsbergen and W. D. Kissling (submitted): Classifying wetland habitats using fine-scale LiDAR metrics derived from country-wide Airborne Laser Scanning manuscript
 
-The codes are still under a cleaning process.
+The codes are still under a cleaning process. The scripts were built using the 2.0.3 version of lidR.
 
 # Instructions for usage
 
