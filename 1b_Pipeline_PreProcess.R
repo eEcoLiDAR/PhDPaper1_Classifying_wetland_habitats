@@ -8,8 +8,8 @@ library("lidR")
 library("rgdal")
 
 # Set working directory
-workingdirectory="D:/Koma/Paper1_revision/" ## set this directory where your input las files are located
-#workingdirectory="D:/Koma/Paper1/ALS/"
+#workingdirectory="D:/Koma/Paper1_revision/" ## set this directory where your input las files are located
+workingdirectory="D:/Koma/Paper1/Revision/"
 setwd(workingdirectory)
 
 laz_files_names <- dir(workingdirectory,pattern="^[g]")
