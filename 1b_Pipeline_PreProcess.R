@@ -19,7 +19,7 @@ for (i in 1:length(laz_files_names)) {
   laz=readLAS(paste(workingdirectory,laz_files_names[i],sep=""))
   laz$Classification <- 2L
   writeLAS(laz,paste(workingdirectory,"/input/","gr_",laz_files_names[i],sep=""))
-  
+
 }
 
 laz_files_names2 <- dir(workingdirectory,pattern="^[u]")
@@ -28,22 +28,45 @@ for (i in 1:length(laz_files_names2)) {
   
   laz=readLAS(paste(workingdirectory,laz_files_names2[i],sep=""))
   laz$Classification <- 1L
-  writeLAS(laz,paste(workingdirectory,"/input/","ngr_",laz_files_names[i],sep=""))
+  writeLAS(laz,paste(workingdirectory,"/input/","ngr_",laz_files_names2[i],sep=""))
   
 }
 
-cores=18
-chunksize=2000
-buffer=1
+laz1=readLAS(paste(workingdirectory,"/input/","ngr_u02gz2.laz",sep=""))
+dtm=raster(paste(workingdirectory,"/input/dtm/","ahn2_5_02gz2.tif",sep=""))
 
-# Create catalog 
-ctg <- catalog(paste(workingdirectory,"/input/",sep=""))
+laz_norm=lasnormalize(laz1, dtm, na.rm = TRUE)
+laz_whw=lasunnormalize(laz_norm)
 
-# Normalize with point neighborhood
+writeLAS(laz_norm,paste(workingdirectory,"/input/","norm_u02gz2.laz",sep=""))
+writeLAS(laz_whw,paste(workingdirectory,"/input/","nowater_u02gz2.laz",sep=""))
 
-opt_chunk_buffer(ctg) <- buffer
-opt_chunk_size(ctg) <- chunksize
-opt_cores(ctg) <- cores
-opt_output_files(ctg) <- paste(workingdirectory,"normalized_neibased/{XLEFT}_{YBOTTOM}_gr_norm",sep="")
+#
+laz1=readLAS(paste(workingdirectory,"/input/","ngr_u02hz1.laz",sep=""))
+dtm=raster(paste(workingdirectory,"/input/dtm/","ahn2_5_02hz1.tif",sep=""))
 
-normalized_ctg=lasnormalize(ctg,knnidw(k=20,p=2))
+laz_norm=lasnormalize(laz1, dtm, na.rm = TRUE)
+laz_whw=lasunnormalize(laz_norm)
+
+writeLAS(laz_norm,paste(workingdirectory,"/input/","norm_u02hz1.laz",sep=""))
+writeLAS(laz_whw,paste(workingdirectory,"/input/","nowater_u02hz1.laz",sep=""))
+
+#
+laz1=readLAS(paste(workingdirectory,"/input/","ngr_u06fn1.laz",sep=""))
+dtm=raster(paste(workingdirectory,"/input/dtm/","ahn2_5_06fn1.tif",sep=""))
+
+laz_norm=lasnormalize(laz1, dtm, na.rm = TRUE)
+laz_whw=lasunnormalize(laz_norm)
+
+writeLAS(laz_norm,paste(workingdirectory,"/input/","norm_u06fn1.laz",sep=""))
+writeLAS(laz_whw,paste(workingdirectory,"/input/","nowater_u06fn1.laz",sep=""))
+
+#
+laz1=readLAS(paste(workingdirectory,"/input/","ngr_u06en2.laz",sep=""))
+dtm=raster(paste(workingdirectory,"/input/dtm/","ahn2_5_06en2.tif",sep=""))
+
+laz_norm=lasnormalize(laz1, dtm, na.rm = TRUE)
+laz_whw=lasunnormalize(laz_norm)
+
+writeLAS(laz_norm,paste(workingdirectory,"/input/","norm_u06en2.laz",sep=""))
+writeLAS(laz_whw,paste(workingdirectory,"/input/","nowater_u06en2.laz",sep=""))
