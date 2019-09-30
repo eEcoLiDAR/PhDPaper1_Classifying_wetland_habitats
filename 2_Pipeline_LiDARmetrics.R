@@ -89,4 +89,16 @@ horizontal_metrics_whgr = HorizontalMetrics(height_metrics_whgr$zmax)
 #plot(horizontal_metrics)
 writeRaster(horizontal_metrics_whgr,paste("horizontal_metrics_whgr_gr_norm_",resolution,"m.grd"),overwrite=TRUE)
 
+# Only dtm
 
+opt_filter(ground_ctg) <- "-keep_class 2"
+dtm = grid_metrics(ground_ctg,min(Z),res=resolution)
+crs(dtm) <- "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
+
+slope_dtm=terrain(dtm,opt="slope",unit="degrees",neighbors=4)
+aspect_dtm=terrain(dtm,opt="aspect",unit="degrees",neighbors=4)
+rough_dtm=terrain(dtm,opt="roughness",neighbors=4)
+
+dtm_metrics=stack(slope_dtm,aspect_dtm,rough_dtm) 
+
+writeRaster(dtm_metrics,paste("dtm_metrics",resolution,"m.grd",sep=""),overwrite=TRUE)
