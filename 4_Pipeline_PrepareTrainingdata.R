@@ -6,17 +6,19 @@ Aim: Prepare training data
 library(raster)
 library(rgdal)
 library(rgeos)
-source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R") #set where the Function*.R file located
+source("D:/GitHub/eEcoLiDAR/PhDPaper1_Classifying_wetland_habitats/Function_Classification.R") #set where the Function*.R file located
 #source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
 
 # Set working dirctory
-workingdirectory="D:/Koma/Paper1_v2/Run4_2019April/"
+workingdirectory="D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Paper1_revision/"
 #workingdirectory="D:/Koma/Paper1_ReedStructure/Results_2019March/"
 setwd(workingdirectory)
 
+n=100 #number of sample
+
 # Import
-lidarmetrics_l1=stack("lidarmetrics_l1_masked.grd")
-lidarmetrics_l23=stack("lidarmetrics_l2l3_masked_wgr.grd")
+lidarmetrics_l1=stack("covermetrics_gr_5m.grd")
+lidarmetrics_l23=stack("height_metrics_whgr_gr_norm_5m.grd")
 
 vegetation=readOGR(dsn="vlakken_union_structuur.shp")
 
@@ -56,18 +58,18 @@ vegetation@data$level3[vegetation@data$StructDef=='Rwd']="Rw"
 sort(unique(vegetation@data$level3))
 
 # Sampling polygons randomly
-ext=extent(lidarmetrics_l1[[25]])
+ext=extent(lidarmetrics_l1[[1]])
 vegetation <- crop(vegetation, ext)
 
-Create_FieldTraining(vegetation,25)
-Create_FieldTraining(vegetation,26)
-Create_FieldTraining(vegetation,27)
+Create_FieldTraining(vegetation,25,n)
+Create_FieldTraining(vegetation,26,n)
+Create_FieldTraining(vegetation,27,n)
 
 ### Create intersection
 
-classes1 = rgdal::readOGR("selpolyper_level1_vtest.shp")
-classes2 = rgdal::readOGR("selpolyper_level2_vtest.shp")
-classes3 = rgdal::readOGR("selpolyper_level3_vtest.shp")
+classes1 = rgdal::readOGR(paste("selpolyper_level1_vtest_",n,".shp",sep=""))
+classes2 = rgdal::readOGR(paste("selpolyper_level2_vtest_",n,".shp",sep=""))
+classes3 = rgdal::readOGR(paste("selpolyper_level3_vtest_",n,".shp",sep=""))
 
 # Intersection for classification
 featuretable_l1=Create_Intersection(classes1,lidarmetrics_l1)
@@ -78,6 +80,9 @@ write.table(featuretable_l2,"featuretable_level2_b2o5_test.csv",row.names=FALSE,
 
 featuretable_l3=Create_Intersection(classes3,lidarmetrics_l23)
 write.table(featuretable_l3,"featuretable_level3_b2o5_test.csv",row.names=FALSE,sep=",")
+
+# Check amount of valid training per class
+
 
 # Intersection for feature analysis gr and wgr
 
