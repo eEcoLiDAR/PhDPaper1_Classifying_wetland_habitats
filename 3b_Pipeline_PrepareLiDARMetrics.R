@@ -10,31 +10,32 @@ library("raster")
 library("spatialEco")
 library("rgeos")
 
+resolution=2.5
 
 # Set working directory
-workingdirectory="D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Paper1_revision/5m/" ## set this directory where your input las files are located
+workingdirectory=paste("D:/Paper1_Revision/",resolution,"m/",sep="") ## set this directory where your input las files are located
 #workingdirectory="C:/Koma/Paper1/Paper1_DataProcess/"
 setwd(workingdirectory)
 
 ## Level 1
 # Read the separate lidarmetrics files into memory
 
-covermetrics=stack("covermetrics_gr_5m.grd")
+covermetrics=stack(paste("covermetrics_gr_",resolution,"m.grd",sep=""))
 proj4string(covermetrics)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
-heightmetrics=stack("height_metrics_gr_5m.grd")
+heightmetrics=stack(paste("height_metrics_gr_",resolution,"m.grd",sep=""))
 proj4string(heightmetrics)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
-horizontalmetrics=stack("horizontal_metrics_gr_5m.grd")
+horizontalmetrics=stack(paste("horizontal_metrics_gr_",resolution,"m.grd",sep=""))
 proj4string(horizontalmetrics)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
-shapemetrics=stack("shapemetrics_gr_5m.grd")
+shapemetrics=stack(paste("shapemetrics_gr_",resolution,"m.grd",sep=""))
 proj4string(shapemetrics)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
-vertdistrmetrics=stack("vertdistr_metrics_gr_5m.grd")
+vertdistrmetrics=stack(paste("vertdistr_metrics_gr_",resolution,"m.grd",sep=""))
 proj4string(vertdistrmetrics)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
-dtmmetrics=stack("dtm_metrics5m.grd")
+dtmmetrics=stack(paste("dtm_metrics",resolution,"m.grd",sep=""))
 proj4string(dtmmetrics)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
 buildmask=stack("building_formask.grd")
@@ -62,27 +63,27 @@ formask[is.na(buildmask)] <- NA
 
 lidarmetrics_masked <- mask(lidarmetrics_l1, formask)
 lidarmetrics_exp=dropLayer(lidarmetrics_masked,c(30))
-writeRaster(lidarmetrics_exp,"lidarmetrics_l1_masked_5m.grd",overwrite=TRUE)
+writeRaster(lidarmetrics_exp,paste("lidarmetrics_l1_masked_",resolution,"m.grd",sep=""),overwrite=TRUE)
 
 ## Level 2-3
 # Read the separate lidarmetrics files into memory
 
-covermetrics=stack("covermetrics_gr_norm_5m.grd")
+covermetrics=stack(paste("covermetrics_gr_norm_",resolution,"m.grd",sep=""))
 proj4string(covermetrics)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
-heightmetrics=stack("height_metrics_whgr_gr_norm_5m.grd")
+heightmetrics=stack(paste("height_metrics_whgr_gr_norm_",resolution,"m.grd",sep=""))
 proj4string(heightmetrics)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
-horizontalmetrics=stack("horizontal_metrics_whgr_gr_norm_ 5 m.grd")
+horizontalmetrics=stack(paste("horizontal_metrics_whgr_gr_norm_",resolution,"m.grd",sep=""))
 proj4string(horizontalmetrics)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
-shapemetrics=stack("shapemetrics_whgr_gr_norm_5m.grd")
+shapemetrics=stack(paste("shapemetrics_whgr_gr_norm_",resolution,"m.grd",sep=""))
 proj4string(shapemetrics)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
-vertdistrmetrics=stack("vertdistr_metrics_whgr_gr_norm_5m.grd")
+vertdistrmetrics=stack(paste("vertdistr_metrics_whgr_gr_norm_",resolution,"m.grd",sep=""))
 proj4string(vertdistrmetrics)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
-dtmmetrics=stack("dtm_metrics5m.grd")
+dtmmetrics=stack(paste("dtm_metrics",resolution,"m.grd",sep=""))
 proj4string(dtmmetrics)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
 buildmask=stack("building_formask.grd")
@@ -110,5 +111,5 @@ formask[is.na(buildmask)] <- NA
 
 lidarmetrics_masked <- mask(lidarmetrics_l1, formask)
 lidarmetrics_exp=dropLayer(lidarmetrics_masked,c(30))
-writeRaster(lidarmetrics_exp,"lidarmetrics_l23_masked_5m.grd",overwrite=TRUE)
+writeRaster(lidarmetrics_exp,paste("lidarmetrics_l23_masked_",resolution,"m.grd",sep=""),overwrite=TRUE)
 

@@ -12,15 +12,15 @@ source("D:/GitHub/eEcoLiDAR/PhDPaper1_Classifying_wetland_habitats/Function_Clas
 #source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
 
 # Set working dirctory
-workingdirectory="D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Paper1_revision/"
+workingdirectory="D:/Paper1_Revision/1m/"
 #workingdirectory="D:/Koma/Paper1_ReedStructure/Results_2019March/"
 setwd(workingdirectory)
 
-n=1000 #number of sample
+n=100 #number of sample
 
 # Import
-lidarmetrics_l1=stack("lidarmetrics_l1_masked_5m.grd")
-lidarmetrics_l23=stack("lidarmetrics_l23_masked_5m.grd")
+lidarmetrics_l1=stack("lidarmetrics_l1_masked_1m.grd")
+lidarmetrics_l23=stack("lidarmetrics_l23_masked_1m.grd")
 
 vegetation=readOGR(dsn="vlakken_union_structuur.shp")
 
