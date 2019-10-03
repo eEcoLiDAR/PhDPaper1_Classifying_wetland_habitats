@@ -16,27 +16,29 @@ library(corrplot)
 
 #source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
 #source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R") 
-source("C:/Koma/Github/komazsofi/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R") #set where the Function*.R file located
+#source("C:/Koma/Github/komazsofi/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R") #set where the Function*.R file located
+source("D:/Koma/GitHub/PhDPaper1_Classifying_wetland_habitats/Function_Classification.R")
 
+res=2.5
 
 # Set global variables
 #setwd("D:/Koma/Paper1_v2/Run4_2019April/")
 #setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Results_17April/")
-setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Paper1_revision/")
+setwd(paste("D:/Koma/Paper1/Revision/Results/",res,"m/",sep=""))
 
 # Import
 
-featuretable_l1_100=read.csv("featuretable_level1_100.csv")
-featuretable_l2_100=read.csv("featuretable_level2_100.csv")
-featuretable_l3_100=read.csv("featuretable_level3_100.csv")
+featuretable_l1_100=read.csv(paste("featuretable_level1_100_",res,".csv",sep=""))
+featuretable_l2_100=read.csv(paste("featuretable_level2_100_",res,".csv",sep=""))
+featuretable_l3_100=read.csv(paste("featuretable_level3_100_",res,".csv",sep=""))
 
-featuretable_l1_500=read.csv("featuretable_level1_500.csv")
-featuretable_l2_500=read.csv("featuretable_level2_500.csv")
-featuretable_l3_500=read.csv("featuretable_level3_500.csv")
+featuretable_l1_500=read.csv(paste("featuretable_level1_500_",res,".csv",sep=""))
+featuretable_l2_500=read.csv(paste("featuretable_level2_500_",res,".csv",sep=""))
+featuretable_l3_500=read.csv(paste("featuretable_level3_500_",res,".csv",sep=""))
 
-featuretable_l1_1000=read.csv("featuretable_level1_1000.csv")
-featuretable_l2_1000=read.csv("featuretable_level2_1000.csv")
-featuretable_l3_1000=read.csv("featuretable_level3_1000.csv")
+featuretable_l1_1000=read.csv(paste("featuretable_level1_1000_",res,".csv",sep=""))
+featuretable_l2_1000=read.csv(paste("featuretable_level1_1000_",res,".csv",sep=""))
+featuretable_l3_1000=read.csv(paste("featuretable_level1_1000_",res,".csv",sep=""))
 
 # One runs level 1
 ##
