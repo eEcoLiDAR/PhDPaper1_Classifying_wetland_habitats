@@ -6,6 +6,8 @@ Aim: Prepare training data
 library(raster)
 library(rgdal)
 library(rgeos)
+library(dplyr)
+
 source("D:/GitHub/eEcoLiDAR/PhDPaper1_Classifying_wetland_habitats/Function_Classification.R") #set where the Function*.R file located
 #source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
 
@@ -14,11 +16,11 @@ workingdirectory="D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Datapr
 #workingdirectory="D:/Koma/Paper1_ReedStructure/Results_2019March/"
 setwd(workingdirectory)
 
-n=100 #number of sample
+n=1000 #number of sample
 
 # Import
-lidarmetrics_l1=stack("covermetrics_gr_5m.grd")
-lidarmetrics_l23=stack("height_metrics_whgr_gr_norm_5m.grd")
+lidarmetrics_l1=stack("lidarmetrics_l1_masked_5m.grd")
+lidarmetrics_l23=stack("lidarmetrics_l23_masked_5m.grd")
 
 vegetation=readOGR(dsn="vlakken_union_structuur.shp")
 
@@ -73,32 +75,29 @@ classes3 = rgdal::readOGR(paste("selpolyper_level3_vtest_",n,".shp",sep=""))
 
 # Intersection for classification
 featuretable_l1=Create_Intersection(classes1,lidarmetrics_l1)
-write.table(featuretable_l1,"featuretable_level1_b2o5_test.csv",row.names=FALSE,sep=",")
+write.table(featuretable_l1,paste("featuretable_level1_",n,".csv",sep=""),row.names=FALSE,sep=",")
 
 featuretable_l2=Create_Intersection(classes2,lidarmetrics_l23)
-write.table(featuretable_l2,"featuretable_level2_b2o5_test.csv",row.names=FALSE,sep=",")
+write.table(featuretable_l2,paste("featuretable_level2_",n,".csv",sep=""),row.names=FALSE,sep=",")
 
 featuretable_l3=Create_Intersection(classes3,lidarmetrics_l23)
-write.table(featuretable_l3,"featuretable_level3_b2o5_test.csv",row.names=FALSE,sep=",")
+write.table(featuretable_l3,paste("featuretable_level3_",n,".csv",sep=""),row.names=FALSE,sep=",")
 
 # Check amount of valid training per class
+l1_count <- featuretable_l1 %>%
+  group_by(layer) %>%
+  summarise(nofobs = length(layer))
 
+print(l1_count)
 
-# Intersection for feature analysis gr and wgr
+l2_count <- featuretable_l2 %>%
+  group_by(layer) %>%
+  summarise(nofobs = length(layer))
 
-# Create level 1 same extent as level23
-formask <- setValues(raster(lidarmetrics_l1[[21]]), 1)
-formask[is.na(lidarmetrics_l23[[21]])] <- NA
+print(l2_count)
 
-lidarmetrics_masked_wl12 <- mask(lidarmetrics_l1, formask)
-writeRaster(lidarmetrics_masked_wl12,"lidarmetrics_l1_masked_wl12.grd",overwrite=TRUE)
+l3_count <- featuretable_l3 %>%
+  group_by(layer) %>%
+  summarise(nofobs = length(layer))
 
-# Intersection
-ex_m=extent(lidarmetrics_l23)
-
-lidarmetrics_masked_wl12_m=crop(lidarmetrics_masked_wl12,ex_m)
-
-foranal=stack(lidarmetrics_l23,lidarmetrics_masked_wl12_m)
-
-featuretable_fea_anal=Create_Intersection(classes1,foranal)
-write.table(featuretable_fea_anal,"featuretable_b2o5_wgr_whgr.csv",row.names=FALSE,sep=",")
+print(l3_count)
