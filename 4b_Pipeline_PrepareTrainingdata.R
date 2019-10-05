@@ -21,7 +21,7 @@ workingdirectory=paste("D:/Koma/Paper1/Revision/Results/",res,"m/",sep="")
 #workingdirectory="D:/Koma/Paper1_ReedStructure/Results_2019March/"
 setwd(workingdirectory)
 
-n=1000 #number of sample
+n=1500 #number of sample
 
 # Import
 lidarmetrics_l1=stack(paste("lidarmetrics_l1_masked_",res,"m.grd",sep=""))
@@ -88,7 +88,7 @@ data=d1@features
 classes1.df2 <- as(classes1.df, "data.frame")
 
 datamerge_l1=merge(x = data, y = classes1.df2, by = c("id"), all.x = TRUE)
-datamerge_l1=subset(datamerge_l1, select=c(3:35))
+datamerge_l1=subset(datamerge_l1, select=c(3:37))
 datamerge_l1=na.omit(datamerge_l1)
 write.table(datamerge_l1,paste("featuretable_level1_",n,"_",res,".csv",sep=""),row.names=FALSE,sep=",")
 
@@ -102,7 +102,7 @@ data2=d2@features
 classes2.df2 <- as(classes2.df, "data.frame")
 
 datamerge_l2=merge(x = data2, y = classes2.df2, by = c("id"), all.x = TRUE)
-datamerge_l2=subset(datamerge_l2, select=c(3:35))
+datamerge_l2=subset(datamerge_l2, select=c(3:37))
 datamerge_l2=na.omit(datamerge_l2)
 write.table(datamerge_l2,paste("featuretable_level2_",n,"_",res,".csv",sep=""),row.names=FALSE,sep=",")
 
@@ -116,7 +116,7 @@ data3=d3@features
 classes3.df2 <- as(classes3.df, "data.frame")
 
 datamerge_l3=merge(x = data2, y = classes3.df2, by = c("id"), all.x = TRUE)
-datamerge_l3=subset(datamerge_l3, select=c(3:35))
+datamerge_l3=subset(datamerge_l3, select=c(3:37))
 datamerge_l3=na.omit(datamerge_l3) 
 write.table(datamerge_l3,paste("featuretable_level3_",n,"_",res,".csv",sep=""),row.names=FALSE,sep=",")
 
