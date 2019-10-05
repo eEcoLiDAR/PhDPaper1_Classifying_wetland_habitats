@@ -21,7 +21,7 @@ workingdirectory=paste("D:/Koma/Paper1/Revision/Results/",res,"m/",sep="")
 #workingdirectory="D:/Koma/Paper1_ReedStructure/Results_2019March/"
 setwd(workingdirectory)
 
-n=100 #number of sample
+n=1000 #number of sample
 
 # Import
 lidarmetrics_l1=stack(paste("lidarmetrics_l1_masked_",res,"m.grd",sep=""))

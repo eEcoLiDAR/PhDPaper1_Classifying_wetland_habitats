@@ -24,7 +24,7 @@ res=2.5
 # Set global variables
 #setwd("D:/Koma/Paper1_v2/Run4_2019April/")
 #setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Results_17April/")
-setwd(paste("D:/Koma/Paper1/Revision/Results/",res,"m/",sep=""))
+setwd("D:/Koma/Paper1/Revision/Results/")
 
 # Import
 
@@ -37,37 +37,37 @@ featuretable_l2_500=read.csv(paste("featuretable_level2_500_",res,".csv",sep="")
 featuretable_l3_500=read.csv(paste("featuretable_level3_500_",res,".csv",sep=""))
 
 featuretable_l1_1000=read.csv(paste("featuretable_level1_1000_",res,".csv",sep=""))
-featuretable_l2_1000=read.csv(paste("featuretable_level1_1000_",res,".csv",sep=""))
-featuretable_l3_1000=read.csv(paste("featuretable_level1_1000_",res,".csv",sep=""))
+featuretable_l2_1000=read.csv(paste("featuretable_level2_1000_",res,".csv",sep=""))
+featuretable_l3_1000=read.csv(paste("featuretable_level3_1000_",res,".csv",sep=""))
 
 # One runs level 1
 ##
-trainIndex_l1_100 <- caret::createDataPartition(y=featuretable_l1_100$layer, p=0.75, list=FALSE)
+trainIndex_l1_100 <- caret::createDataPartition(y=featuretable_l1_100$V3, p=0.75, list=FALSE)
 trainingSet_l1_100 <- featuretable_l1_100[trainIndex_l1_100,]
 testingSet_l1_100 <- featuretable_l1_100[-trainIndex_l1_100,]
 
-modelFit_l1_100 <- randomForest(trainingSet_l1_100[,1:32],factor(trainingSet_l1_100$layer),ntree=100,importance = TRUE)
+modelFit_l1_100 <- randomForest(trainingSet_l1_100[,1:32],factor(trainingSet_l1_100$V3),ntree=100,importance = TRUE)
 prediction_l1_100 <- predict(modelFit_l1_100,testingSet_l1_100[ ,1:32])
 
-conf_m_l1_100=confusionMatrix(factor(prediction_l1_100), factor(testingSet_l1_100$layer),mode = "everything")
+conf_m_l1_100=confusionMatrix(factor(prediction_l1_100), factor(testingSet_l1_100$V3),mode="everything")
 ##
-trainIndex_l1_500 <- caret::createDataPartition(y=featuretable_l1_500$layer, p=0.75, list=FALSE)
+trainIndex_l1_500 <- caret::createDataPartition(y=featuretable_l1_500$V3, p=0.75, list=FALSE)
 trainingSet_l1_500 <- featuretable_l1_500[trainIndex_l1_500,]
 testingSet_l1_500 <- featuretable_l1_500[-trainIndex_l1_500,]
 
-modelFit_l1_500 <- randomForest(trainingSet_l1_500[,1:32],factor(trainingSet_l1_500$layer),ntree=100,importance = TRUE)
+modelFit_l1_500 <- randomForest(trainingSet_l1_500[,1:32],factor(trainingSet_l1_500$V3),ntree=100,importance = TRUE)
 prediction_l1_500 <- predict(modelFit_l1_500,testingSet_l1_500[ ,1:32])
 
-conf_m_l1_500=confusionMatrix(factor(prediction_l1_500), factor(testingSet_l1_500$layer),mode = "everything")
+conf_m_l1_500=confusionMatrix(factor(prediction_l1_500), factor(testingSet_l1_500$V3),mode = "everything")
 ##
-trainIndex_l1_1000 <- caret::createDataPartition(y=featuretable_l1_1000$layer, p=0.75, list=FALSE)
+trainIndex_l1_1000 <- caret::createDataPartition(y=featuretable_l1_1000$V3, p=0.75, list=FALSE)
 trainingSet_l1_1000 <- featuretable_l1_1000[trainIndex_l1_1000,]
 testingSet_l1_1000 <- featuretable_l1_100[-trainIndex_l1_1000,]
 
-modelFit_l1_1000 <- randomForest(trainingSet_l1_1000[,1:32],factor(trainingSet_l1_1000$layer),ntree=100,importance = TRUE)
+modelFit_l1_1000 <- randomForest(trainingSet_l1_1000[,1:32],factor(trainingSet_l1_1000$V3),ntree=100,importance = TRUE)
 prediction_l1_1000 <- predict(modelFit_l1_1000,testingSet_l1_1000[ ,1:32])
 
-conf_m_l1_1000=confusionMatrix(factor(prediction_l1_1000), factor(testingSet_l1_1000$layer),mode = "everything")
+conf_m_l1_1000=confusionMatrix(factor(prediction_l1_1000), factor(testingSet_l1_1000$V3),mode = "everything")
 
 print(conf_m_l1_100)
 print(conf_m_l1_500)
@@ -75,32 +75,32 @@ print(conf_m_l1_1000)
 
 # One runs level 2
 ##
-trainIndex_l2_100 <- caret::createDataPartition(y=featuretable_l2_100$layer, p=0.75, list=FALSE)
+trainIndex_l2_100 <- caret::createDataPartition(y=featuretable_l2_100$V3, p=0.75, list=FALSE)
 trainingSet_l2_100 <- featuretable_l2_100[trainIndex_l2_100,]
 testingSet_l2_100 <- featuretable_l2_100[-trainIndex_l2_100,]
 
-modelFit_l2_100 <- randomForest(trainingSet_l2_100[,1:32],factor(trainingSet_l2_100$layer),ntree=100,importance = TRUE)
+modelFit_l2_100 <- randomForest(trainingSet_l2_100[,1:32],factor(trainingSet_l2_100$V3),ntree=100,importance = TRUE)
 prediction_l2_100 <- predict(modelFit_l2_100,testingSet_l2_100[ ,1:32])
 
-conf_m_l2_100=confusionMatrix(factor(prediction_l2_100), factor(testingSet_l2_100$layer),mode = "everything")
+conf_m_l2_100=confusionMatrix(factor(prediction_l2_100), factor(testingSet_l2_100$V3),mode = "everything")
 ##
-trainIndex_l2_500 <- caret::createDataPartition(y=featuretable_l2_500$layer, p=0.75, list=FALSE)
+trainIndex_l2_500 <- caret::createDataPartition(y=featuretable_l2_500$V3, p=0.75, list=FALSE)
 trainingSet_l2_500 <- featuretable_l2_500[trainIndex_l2_500,]
 testingSet_l2_500 <- featuretable_l2_500[-trainIndex_l2_500,]
 
-modelFit_l2_500 <- randomForest(trainingSet_l2_500[,1:32],factor(trainingSet_l2_500$layer),ntree=100,importance = TRUE)
+modelFit_l2_500 <- randomForest(trainingSet_l2_500[,1:32],factor(trainingSet_l2_500$V3),ntree=100,importance = TRUE)
 prediction_l2_500 <- predict(modelFit_l2_500,testingSet_l2_500[ ,1:32])
 
-conf_m_l2_500=confusionMatrix(factor(prediction_l2_500), factor(testingSet_l2_500$layer),mode = "everything")
+conf_m_l2_500=confusionMatrix(factor(prediction_l2_500), factor(testingSet_l2_500$V3),mode = "everything")
 ##
-trainIndex_l2_1000 <- caret::createDataPartition(y=featuretable_l2_1000$layer, p=0.75, list=FALSE)
+trainIndex_l2_1000 <- caret::createDataPartition(y=featuretable_l2_1000$V3, p=0.75, list=FALSE)
 trainingSet_l2_1000 <- featuretable_l2_1000[trainIndex_l2_1000,]
 testingSet_l2_1000 <- featuretable_l2_100[-trainIndex_l2_1000,]
 
-modelFit_l2_1000 <- randomForest(trainingSet_l2_1000[,1:32],factor(trainingSet_l2_1000$layer),ntree=100,importance = TRUE)
+modelFit_l2_1000 <- randomForest(trainingSet_l2_1000[,1:32],factor(trainingSet_l2_1000$V3),ntree=100,importance = TRUE)
 prediction_l2_1000 <- predict(modelFit_l2_1000,testingSet_l2_1000[ ,1:32])
 
-conf_m_l2_1000=confusionMatrix(factor(prediction_l2_1000), factor(testingSet_l2_1000$layer),mode = "everything")
+conf_m_l2_1000=confusionMatrix(factor(prediction_l2_1000), factor(testingSet_l2_1000$V3),mode = "everything")
 
 print(conf_m_l2_100)
 print(conf_m_l2_500)
@@ -108,32 +108,32 @@ print(conf_m_l2_1000)
 
 # One runs level 3
 ##
-trainIndex_l3_100 <- caret::createDataPartition(y=featuretable_l3_100$layer, p=0.75, list=FALSE)
+trainIndex_l3_100 <- caret::createDataPartition(y=featuretable_l3_100$V3, p=0.75, list=FALSE)
 trainingSet_l3_100 <- featuretable_l3_100[trainIndex_l3_100,]
 testingSet_l3_100 <- featuretable_l3_100[-trainIndex_l3_100,]
 
-modelFit_l3_100 <- randomForest(trainingSet_l3_100[,1:32],factor(trainingSet_l3_100$layer),ntree=100,importance = TRUE)
+modelFit_l3_100 <- randomForest(trainingSet_l3_100[,1:32],factor(trainingSet_l3_100$V3),ntree=100,importance = TRUE)
 prediction_l3_100 <- predict(modelFit_l3_100,testingSet_l3_100[ ,1:32])
 
-conf_m_l3_100=confusionMatrix(factor(prediction_l3_100), factor(testingSet_l3_100$layer),mode = "everything")
+conf_m_l3_100=confusionMatrix(factor(prediction_l3_100), factor(testingSet_l3_100$V3),mode = "everything")
 ##
-trainIndex_l3_500 <- caret::createDataPartition(y=featuretable_l3_500$layer, p=0.75, list=FALSE)
+trainIndex_l3_500 <- caret::createDataPartition(y=featuretable_l3_500$V3, p=0.75, list=FALSE)
 trainingSet_l3_500 <- featuretable_l3_500[trainIndex_l3_500,]
 testingSet_l3_500 <- featuretable_l3_500[-trainIndex_l3_500,]
 
-modelFit_l3_500 <- randomForest(trainingSet_l3_500[,1:32],factor(trainingSet_l3_500$layer),ntree=100,importance = TRUE)
+modelFit_l3_500 <- randomForest(trainingSet_l3_500[,1:32],factor(trainingSet_l3_500$V3),ntree=100,importance = TRUE)
 prediction_l3_500 <- predict(modelFit_l3_500,testingSet_l3_500[ ,1:32])
 
-conf_m_l3_500=confusionMatrix(factor(prediction_l3_500), factor(testingSet_l3_500$layer),mode = "everything")
+conf_m_l3_500=confusionMatrix(factor(prediction_l3_500), factor(testingSet_l3_500$V3),mode = "everything")
 ##
-trainIndex_l3_1000 <- caret::createDataPartition(y=featuretable_l3_1000$layer, p=0.75, list=FALSE)
+trainIndex_l3_1000 <- caret::createDataPartition(y=featuretable_l3_1000$V3, p=0.75, list=FALSE)
 trainingSet_l3_1000 <- featuretable_l3_1000[trainIndex_l3_1000,]
 testingSet_l3_1000 <- featuretable_l3_100[-trainIndex_l3_1000,]
 
-modelFit_l3_1000 <- randomForest(trainingSet_l3_1000[,1:32],factor(trainingSet_l3_1000$layer),ntree=100,importance = TRUE)
+modelFit_l3_1000 <- randomForest(trainingSet_l3_1000[,1:32],factor(trainingSet_l3_1000$V3),ntree=100,importance = TRUE)
 prediction_l3_1000 <- predict(modelFit_l3_1000,testingSet_l3_1000[ ,1:32])
 
-conf_m_l3_1000=confusionMatrix(factor(prediction_l3_1000), factor(testingSet_l3_1000$layer),mode = "everything")
+conf_m_l3_1000=confusionMatrix(factor(prediction_l3_1000), factor(testingSet_l3_1000$V3),mode = "everything")
 
 print(conf_m_l3_100)
 print(conf_m_l3_500)
