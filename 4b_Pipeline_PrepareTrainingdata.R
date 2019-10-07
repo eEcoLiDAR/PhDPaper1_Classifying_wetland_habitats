@@ -14,14 +14,14 @@ library(sdm)
 #source("D:/GitHub/eEcoLiDAR/PhDPaper1_Classifying_wetland_habitats/Function_Classification.R") #set where the Function*.R file located
 source("D:/Koma/GitHub/PhDPaper1_Classifying_wetland_habitats/Function_Classification.R")
 
-res=2.5
+res=1
 
 # Set working dirctory
 workingdirectory=paste("D:/Koma/Paper1/Revision/Results/",res,"m/",sep="")
 #workingdirectory="D:/Koma/Paper1_ReedStructure/Results_2019March/"
 setwd(workingdirectory)
 
-n=1500 #number of sample
+n=4000 #number of sample
 
 # Import
 lidarmetrics_l1=stack(paste("lidarmetrics_l1_masked_",res,"m.grd",sep=""))
