@@ -23,7 +23,7 @@ library(corrplot)
 
 # Set global variables
 workdir="D:/Koma/Paper1/Revision/Results/"
-res=2.5
+res=5
 
 setwd(paste(workdir,res,"m/",sep=""))
 
