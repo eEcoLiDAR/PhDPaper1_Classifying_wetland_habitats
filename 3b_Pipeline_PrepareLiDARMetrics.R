@@ -10,7 +10,7 @@ library("raster")
 library("spatialEco")
 library("rgeos")
 
-resolution=10
+resolution=5
 
 # Set working directory
 workingdirectory=paste("D:/Koma/Paper1/Revision/input/process/",resolution,"m/",sep="") ## set this directory where your input las files are located
@@ -50,12 +50,13 @@ horizontalmetrics_mod_m=crop(horizontalmetrics,ex_m)
 vertdistrmetrics_mod_m=crop(vertdistrmetrics,ex_m)
 dtmmetrics_mod_m=crop(dtmmetrics,ex_m)
 
-vertdistrmetrics_mod_m$zskew[vertdistrmetrics_mod_m$zstd==0]<-0
-vertdistrmetrics_mod_m$zkurto[vertdistrmetrics_mod_m$zstd==0]<-0
-vertdistrmetrics_mod_m$canrelrat[vertdistrmetrics_mod_m$zstd==0]<-0
-vertdistrmetrics_mod_m$vertdenrat[vertdistrmetrics_mod_m$zstd==0]<-0
+#vertdistrmetrics_mod_m$zskew[vertdistrmetrics_mod_m$zstd==0]<-0
+#vertdistrmetrics_mod_m$zkurto[vertdistrmetrics_mod_m$zstd==0]<-0
+#vertdistrmetrics_mod_m$canrelrat[vertdistrmetrics_mod_m$zstd==0]<-0
+#vertdistrmetrics_mod_m$vertdenrat[vertdistrmetrics_mod_m$zstd==0]<-0
 
 lidarmetrics_l1=stack(covermetrics_m,shapemetrics,vertdistrmetrics_mod_m,horizontalmetrics_mod_m,heightmetrics_mod_m,dtmmetrics_mod_m)
+writeRaster(lidarmetrics_l1,paste("lidarmetrics_l1_masked_",resolution,"m.grd",sep=""),overwrite=TRUE)
 
 # Exclude buildings
 formask <- setValues(raster(lidarmetrics_l1[[1]]), 1)
@@ -63,7 +64,7 @@ formask[is.na(buildmask)] <- NA
 
 lidarmetrics_masked <- mask(lidarmetrics_l1, formask)
 lidarmetrics_exp=dropLayer(lidarmetrics_masked,c(30))
-writeRaster(lidarmetrics_exp,paste("lidarmetrics_l1_masked_",resolution,"m.grd",sep=""),overwrite=TRUE)
+#writeRaster(lidarmetrics_exp,paste("lidarmetrics_l1_masked_",resolution,"m.grd",sep=""),overwrite=TRUE)
 
 ## Level 2-3
 # Read the separate lidarmetrics files into memory
@@ -98,12 +99,13 @@ horizontalmetrics_mod_m=crop(horizontalmetrics,ex_m)
 vertdistrmetrics_mod_m=crop(vertdistrmetrics,ex_m)
 dtmmetrics_mod_m=crop(dtmmetrics,ex_m)
 
-vertdistrmetrics_mod_m$zskew[vertdistrmetrics_mod_m$zstd==0]<-0
-vertdistrmetrics_mod_m$zkurto[vertdistrmetrics_mod_m$zstd==0]<-0
-vertdistrmetrics_mod_m$canrelrat[vertdistrmetrics_mod_m$zstd==0]<-0
-vertdistrmetrics_mod_m$vertdenrat[vertdistrmetrics_mod_m$zstd==0]<-0
+#vertdistrmetrics_mod_m$zskew[vertdistrmetrics_mod_m$zstd==0]<-0
+#vertdistrmetrics_mod_m$zkurto[vertdistrmetrics_mod_m$zstd==0]<-0
+#vertdistrmetrics_mod_m$canrelrat[vertdistrmetrics_mod_m$zstd==0]<-0
+#vertdistrmetrics_mod_m$vertdenrat[vertdistrmetrics_mod_m$zstd==0]<-0
 
 lidarmetrics_l1=stack(covermetrics_m,shapemetrics,vertdistrmetrics_mod_m,horizontalmetrics_mod_m,heightmetrics_mod_m,dtmmetrics_mod_m)
+writeRaster(lidarmetrics_l1,paste("lidarmetrics_l23_masked_",resolution,"m.grd",sep=""),overwrite=TRUE)
 
 # Exclude buildings
 formask <- setValues(raster(lidarmetrics_l1[[1]]), 1)
@@ -111,5 +113,5 @@ formask[is.na(buildmask)] <- NA
 
 lidarmetrics_masked <- mask(lidarmetrics_l1, formask)
 lidarmetrics_exp=dropLayer(lidarmetrics_masked,c(30))
-writeRaster(lidarmetrics_exp,paste("lidarmetrics_l23_masked_",resolution,"m.grd",sep=""),overwrite=TRUE)
+#writeRaster(lidarmetrics_exp,paste("lidarmetrics_l23_masked_",resolution,"m.grd",sep=""),overwrite=TRUE)
 
