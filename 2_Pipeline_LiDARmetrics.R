@@ -17,7 +17,7 @@ setwd(workingdirectory)
 cores=18
 chunksize=2000
 buffer=1
-resolution=2.5
+resolution=10
 
 rasterOptions(maxmemory = 200000000000)
 

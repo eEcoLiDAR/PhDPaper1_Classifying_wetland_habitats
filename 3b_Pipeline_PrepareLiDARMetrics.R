@@ -10,10 +10,10 @@ library("raster")
 library("spatialEco")
 library("rgeos")
 
-resolution=2.5
+resolution=10
 
 # Set working directory
-workingdirectory=paste("D:/Paper1_Revision/",resolution,"m/",sep="") ## set this directory where your input las files are located
+workingdirectory=paste("D:/Koma/Paper1/Revision/input/process/",resolution,"m/",sep="") ## set this directory where your input las files are located
 #workingdirectory="C:/Koma/Paper1/Paper1_DataProcess/"
 setwd(workingdirectory)
 
