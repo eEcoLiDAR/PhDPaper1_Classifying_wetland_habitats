@@ -22,6 +22,10 @@ setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Pa
 
 # Import
 
+featuretable_l1_10=read.csv(paste("featuretable_level1_3000_10",".csv",sep=""))
+featuretable_l2_10=read.csv(paste("featuretable_level2_3000_10",".csv",sep=""))
+featuretable_l3_10=read.csv(paste("featuretable_level3_3000_10",".csv",sep=""))
+
 featuretable_l1_5=read.csv(paste("featuretable_level1_3000_5",".csv",sep=""))
 featuretable_l2_5=read.csv(paste("featuretable_level2_3000_5",".csv",sep=""))
 featuretable_l3_5=read.csv(paste("featuretable_level3_3000_5",".csv",sep=""))
@@ -33,6 +37,32 @@ featuretable_l3_2.5=read.csv(paste("featuretable_level3_3000_2.5",".csv",sep="")
 featuretable_l1_1=read.csv(paste("featuretable_level1_3000_1",".csv",sep=""))
 featuretable_l2_1=read.csv(paste("featuretable_level2_3000_1",".csv",sep=""))
 featuretable_l3_1=read.csv(paste("featuretable_level3_3000_1",".csv",sep=""))
+
+# Prep. 100,500,1000 from 10m 
+
+featuretable_l1_10_100=ddply(featuretable_l1_10,.(V3),function(x) x[sample(nrow(x),100),])
+featuretable_l2_10_100=ddply(featuretable_l2_10,.(V3),function(x) x[sample(nrow(x),100),])
+featuretable_l3_10_100=ddply(featuretable_l3_10,.(V3),function(x) x[sample(nrow(x),100),])
+
+write.table(featuretable_l1_10_100,"featuretable_l1_10_100.csv",row.names=FALSE,sep=",")
+write.table(featuretable_l2_10_100,"featuretable_l2_10_100.csv",row.names=FALSE,sep=",")
+write.table(featuretable_l3_10_100,"featuretable_l3_10_100.csv",row.names=FALSE,sep=",")
+
+featuretable_l1_10_500=ddply(featuretable_l1_10,.(V3),function(x) x[sample(nrow(x),500),])
+featuretable_l2_10_500=ddply(featuretable_l2_10,.(V3),function(x) x[sample(nrow(x),500),])
+featuretable_l3_10_500=ddply(featuretable_l3_10,.(V3),function(x) x[sample(nrow(x),500),])
+
+write.table(featuretable_l1_10_500,"featuretable_l1_10_500.csv",row.names=FALSE,sep=",")
+write.table(featuretable_l2_10_500,"featuretable_l2_10_500.csv",row.names=FALSE,sep=",")
+write.table(featuretable_l3_10_500,"featuretable_l3_10_500.csv",row.names=FALSE,sep=",")
+
+featuretable_l1_10_1000=ddply(featuretable_l1_10,.(V3),function(x) x[sample(nrow(x),1000),])
+featuretable_l2_10_1000=ddply(featuretable_l2_10,.(V3),function(x) x[sample(nrow(x),1000),])
+featuretable_l3_10_1000=ddply(featuretable_l3_10,.(V3),function(x) x[sample(nrow(x),1000),])
+
+write.table(featuretable_l1_10_1000,"featuretable_l1_10_1000.csv",row.names=FALSE,sep=",")
+write.table(featuretable_l2_10_1000,"featuretable_l2_10_1000.csv",row.names=FALSE,sep=",")
+write.table(featuretable_l3_10_1000,"featuretable_l3_10_1000.csv",row.names=FALSE,sep=",")
 
 # Prep. 100,500,1000 from 5m 
 

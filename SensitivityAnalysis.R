@@ -19,7 +19,7 @@ library(corrplot)
 #source("C:/Koma/Github/komazsofi/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R") #set where the Function*.R file located
 source("D:/Koma/GitHub/PhDPaper1_Classifying_wetland_habitats/Function_Classification.R")
 
-res=2.5
+res=10
 
 # Set global variables
 #setwd("D:/Koma/Paper1_v2/Run4_2019April/")
