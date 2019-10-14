@@ -26,24 +26,21 @@ setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Pa
 
 # Import
 
-featuretable_l1=read.csv("featuretable_level1_500_5.csv")
-featuretable_l2=read.csv("featuretable_level2_500_5.csv")
-featuretable_l3=read.csv("featuretable_level3_500_5.csv")
+featuretable_l1=read.csv("featuretable_l1_5_500.csv")
+featuretable_l2=read.csv("featuretable_l2_5_500.csv")
+featuretable_l3=read.csv("featuretable_l3_5_500.csv")
 
-featuretable_l1=featuretable_l1[c("cancov","dens_perc_b2","dens_perc_b2_5","linearity","anisotrophy","zvar","zskew","zkurto","canrelrat","vertdenrat","tpi","tri","var_dsm","z025quantile","zcoeffvar","slope","aspect","V3")]
-featuretable_l2=featuretable_l2[c("cancov","dens_perc_b2","dens_perc_b2_5","linearity","anisotrophy","zvar","zskew","zkurto","canrelrat","vertdenrat","tpi","tri","var_dsm","z025quantile","zcoeffvar","slope","aspect","V3")]
-featuretable_l3=featuretable_l3[c("cancov","dens_perc_b2","dens_perc_b2_5","linearity","anisotrophy","zvar","zskew","zkurto","canrelrat","vertdenrat","tpi","tri","var_dsm","z025quantile","zcoeffvar","slope","aspect","V3")]
+featuretable_l1=featuretable_l1[c("cancov","dens_perc_b2","dens_perc_b2_5","linearity","curvature","zvar","zskew","zkurto","canrelrat","vertdenrat","tpi","var_dsm","z025quantile","zcoeffvar","roughness.2","aspect","V3")]
+featuretable_l2=featuretable_l2[c("cancov","dens_perc_b2","dens_perc_b2_5","linearity","curvature","zvar","zskew","zkurto","canrelrat","vertdenrat","tpi","var_dsm","z025quantile","zcoeffvar","roughness.2","aspect","V3")]
+featuretable_l3=featuretable_l3[c("cancov","dens_perc_b2","dens_perc_b2_5","linearity","curvature","zvar","zskew","zkurto","canrelrat","vertdenrat","tpi","var_dsm","z025quantile","zcoeffvar","roughness.2","aspect","V3")]
 
 # Pre-process - rename coloumns, add feature classes
 
-names(featuretable_l1) <- c("C_puls","C_can","S_curv","S_lin","S_plan","S_sph","S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
-                            "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p","layer")
+names(featuretable_l1) <- c("C_can","C_b2","C_2-5","S_lin","S_curv","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","HV_tpi","HV_var","H_25p","VV_coefvar","T_rough","T_asp","V3")
 
-names(featuretable_l2) <- c("C_puls","C_can","S_curv","S_lin","S_plan","S_sph","S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
-                            "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p","layer")
+names(featuretable_l2) <- c("C_can","C_b2","C_2-5","S_lin","S_curv","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","HV_tpi","HV_var","H_25p","VV_coefvar","T_rough","T_asp","V3")
 
-names(featuretable_l3) <- c("C_puls","C_can","S_curv","S_lin","S_plan","S_sph","S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
-                            "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p","layer")
+names(featuretable_l3) <- c("C_can","C_b2","C_2-5","S_lin","S_curv","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","HV_tpi","HV_var","H_25p","VV_coefvar","T_rough","T_asp","V3")
 
 
 # RFE
@@ -51,17 +48,17 @@ names(featuretable_l3) <- c("C_puls","C_can","S_curv","S_lin","S_plan","S_sph","
 # level 1
 control <- rfeControl(functions=rfFuncs, method="cv", number=50,returnResamp = "all")
 #set.seed(50)
-rfe_l1 <- rfe(featuretable_l1[,1:17], factor(featuretable_l1$V3), rfeControl=control,sizes=c(1:26),ntree=100,maximize = TRUE)
+rfe_l1 <- rfe(featuretable_l1[,1:16], factor(featuretable_l1$V3), rfeControl=control,sizes=c(1:16),ntree=100,maximize = TRUE)
 
 # level 2
 control <- rfeControl(functions=rfFuncs, method="cv", number=50,returnResamp = "all")
 set.seed(50)
-rfe_l2 <- rfe(featuretable_l2[,1:17], factor(featuretable_l2$V3), rfeControl=control,sizes=c(1:26),ntree=100,maximize = TRUE)
+rfe_l2 <- rfe(featuretable_l2[,1:16], factor(featuretable_l2$V3), rfeControl=control,sizes=c(1:16),ntree=100,maximize = TRUE)
 
 # level 3
 control <- rfeControl(functions=rfFuncs, method="cv", number=50,returnResamp = "all")
 set.seed(50)
-rfe_l3 <- rfe(featuretable_l3[,1:17], factor(featuretable_l3$V3), rfeControl=control,sizes=c(1:26),ntree=100,maximize = TRUE)
+rfe_l3 <- rfe(featuretable_l3[,1:16], factor(featuretable_l3$V3), rfeControl=control,sizes=c(1:16),ntree=100,maximize = TRUE)
 
 
 absoluteBest_l1 <- pickSizeBest(rfe_l1$results, metric = "Accuracy", maximize = TRUE)
@@ -72,6 +69,10 @@ within5Pct_l2 <- pickSizeTolerance(rfe_l2$results, metric = "Accuracy", maximize
 
 absoluteBest_l3 <- pickSizeBest(rfe_l3$results, metric = "Accuracy", maximize = TRUE)
 within5Pct_l3 <- pickSizeTolerance(rfe_l3$results, metric = "Accuracy", maximize = TRUE,tol = 2.5)
+
+save(rfe_l1,file="rfe_l1.RData")
+save(rfe_l2,file="rfe_l2.RData")
+save(rfe_l3,file="rfe_l3.RData")
 
 # Get RF with min number of features
 
