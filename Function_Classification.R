@@ -162,13 +162,14 @@ Response_l3 = function(forest_l1,featuretable_l1,id) {
 add_varclass = function(importance_frame) {
   
   importance_frame$varclass <- NA
-  importance_frame$varclass[importance_frame$variable=="C_can" | importance_frame$variable=="C_puls"] <- 1
+  importance_frame$varclass[importance_frame$variable=="C_can" | importance_frame$variable=="C_puls" | importance_frame$variable=="C_2-5" | importance_frame$variable=="C_b2"] <- 1
   importance_frame$varclass[importance_frame$variable=="S_curv" | importance_frame$variable == "S_lin" | importance_frame$variable == "S_plan" | importance_frame$variable == "S_sph" | importance_frame$variable == "S_ani"] <-2
   importance_frame$varclass[importance_frame$variable == "VV_sd" | importance_frame$variable == "VV_var" | importance_frame$variable=="VV_skew" | importance_frame$variable == "VV_kurt" | importance_frame$variable == "VV_cr" | importance_frame$variable == "VV_vdr"
-                            | importance_frame$variable == "VV_simp" | importance_frame$variable == "VV_shan"] <- 3
+                            | importance_frame$variable == "VV_simp" | importance_frame$variable == "VV_shan" | importance_frame$variable == "VV_coefvar"] <- 3
   importance_frame$varclass[importance_frame$variable=="H_max" | importance_frame$variable=="H_mean" | importance_frame$variable == "H_med" | importance_frame$variable == "H_25p" | importance_frame$variable == "H_75p"
                             | importance_frame$variable == "H_90p" ] <- 4
   importance_frame$varclass[importance_frame$variable=="HV_rough" | importance_frame$variable=="HV_tpi" | importance_frame$variable == "HV_tri" | importance_frame$variable == "HV_sd" | importance_frame$variable == "HV_var"] <- 5
+  importance_frame$varclass[importance_frame$variable=="T_asp" | importance_frame$variable=="T_rough"] <- 6
   
   return(importance_frame)
   

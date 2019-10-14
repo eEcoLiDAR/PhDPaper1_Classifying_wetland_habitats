@@ -14,21 +14,21 @@ library(ggrepel)
 library(reshape2)
 library(corrplot)
 
-#source("D:/Koma/GitHub/PhDPaper1_Classifying_wetland_habitats/Function_Classification.R")
-source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R") 
+source("D:/Koma/GitHub/PhDPaper1_Classifying_wetland_habitats/Function_Classification.R")
+#source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R") 
 #source("C:/Koma/Github/komazsofi/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R") #set where the Function*.R file located
 
 
 # Set global variables
-#setwd("D:/Koma/Paper1/Revision/Results/5m/")
-setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Paper1_revision/")
+setwd("D:/Koma/Paper1/Revision/Results/5m/")
+#setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Paper1_revision/")
 #setwd("C:/Koma/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Results_17April/")
 
 # Import
 
-featuretable_l1=read.csv("featuretable_l1_5_500.csv")
-featuretable_l2=read.csv("featuretable_l2_5_500.csv")
-featuretable_l3=read.csv("featuretable_l3_5_500.csv")
+featuretable_l1=read.csv("featuretable_level1_500_5.csv")
+featuretable_l2=read.csv("featuretable_level2_500_5.csv")
+featuretable_l3=read.csv("featuretable_level3_500_5.csv")
 
 featuretable_l1=featuretable_l1[c("cancov","dens_perc_b2","dens_perc_b2_5","linearity","curvature","zvar","zskew","zkurto","canrelrat","vertdenrat","tpi","var_dsm","z025quantile","zcoeffvar","roughness.2","aspect","V3")]
 featuretable_l2=featuretable_l2[c("cancov","dens_perc_b2","dens_perc_b2_5","linearity","curvature","zvar","zskew","zkurto","canrelrat","vertdenrat","tpi","var_dsm","z025quantile","zcoeffvar","roughness.2","aspect","V3")]
@@ -46,18 +46,18 @@ names(featuretable_l3) <- c("C_can","C_b2","C_2-5","S_lin","S_curv","VV_var","VV
 # RFE
 
 # level 1
-control <- rfeControl(functions=rfFuncs, method="cv", number=50,returnResamp = "all")
+control <- rfeControl(functions=rfFuncs, method="cv", number=100,returnResamp = "all")
 #set.seed(50)
 rfe_l1 <- rfe(featuretable_l1[,1:16], factor(featuretable_l1$V3), rfeControl=control,sizes=c(1:16),ntree=100,maximize = TRUE)
 
 # level 2
-control <- rfeControl(functions=rfFuncs, method="cv", number=50,returnResamp = "all")
-set.seed(50)
+control <- rfeControl(functions=rfFuncs, method="cv", number=100,returnResamp = "all")
+#set.seed(50)
 rfe_l2 <- rfe(featuretable_l2[,1:16], factor(featuretable_l2$V3), rfeControl=control,sizes=c(1:16),ntree=100,maximize = TRUE)
 
 # level 3
-control <- rfeControl(functions=rfFuncs, method="cv", number=50,returnResamp = "all")
-set.seed(50)
+control <- rfeControl(functions=rfFuncs, method="cv", number=100,returnResamp = "all")
+#set.seed(50)
 rfe_l3 <- rfe(featuretable_l3[,1:16], factor(featuretable_l3$V3), rfeControl=control,sizes=c(1:16),ntree=100,maximize = TRUE)
 
 

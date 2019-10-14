@@ -27,251 +27,9 @@ setwd("D:/Koma/Paper1/Revision/Results/5m/")
 #setwd("C:/Koma/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Results_09April/")
 
 # Import
-
-#Feature tables
-featuretable_l1=read.csv("featuretable_level1_b2o5.csv")
-featuretable_l2=read.csv("featuretable_level2_b2o5.csv")
-featuretable_l3=read.csv("featuretable_level3_b2o5.csv")
-
-names(featuretable_l1) <- c("C_puls","C_can","S_curv","S_lin","S_plan","S_sph","S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
-                            "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p","layer")
-
-names(featuretable_l2) <- c("C_puls","C_can","S_curv","S_lin","S_plan","S_sph","S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
-                            "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p","layer")
-
-names(featuretable_l3) <- c("C_puls","C_can","S_curv","3S_lin","S_plan","S_sph","S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
-                            "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p","layer")
-
-featuretable_l1_foranal=read.csv("featuretable_b2o5_wgr_whgr.csv")
-featuretable_l1_foranal=featuretable_l1_foranal[featuretable_l1_foranal$layer==2,]
-
-featuretable_l1_a=featuretable_l1_foranal[ ,c(1:26)]
-featuretable_l1_b=featuretable_l1_foranal[ ,c(27:52)]
-
-names(featuretable_l1_a) <- c("C_puls","C_can","S_curv","S_lin","S_plan","S_sph","S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
-                              "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p")
-
-names(featuretable_l1_b) <- c("C_puls","C_can","S_curv","S_lin","S_plan","S_sph","S_ani","VV_sd","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi","HV_tri",
-                              "HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p")
-
-#RFE
 load("rfe_l1.RData")
 load("rfe_l2.RData")
 load("rfe_l3.RData")
-
-# Conf matrix
-load("conf_m_l1.RData")
-load("conf_m_l2.RData")
-load("conf_m_l3.RData")
-
-# ModelFit
-load("modelFit_l1.RData")
-load("modelFit_l2.RData")
-load("modelFit_l3.RData")
-
-# Way of calculating lidar metrics (boxplots)
-vegetation_wgr=featuretable_l1_a[ ,c(1:2)]
-vegetation_whgr=featuretable_l1_b[,c(1:2)]
-
-vegetation_wgr_f=melt(vegetation_wgr)
-vegetation_whgr_f=melt(vegetation_whgr)
-
-vegetation_wgr_f$class <-1
-vegetation_whgr_f$class <-2
-
-vegetation_var=rbind(vegetation_wgr_f,vegetation_whgr_f)
-
-p1=ggplot(data = vegetation_var, aes(x=variable, y=value,fill=factor(class))) + geom_boxplot(show.legend = FALSE)+
-  scale_fill_manual(values = c("1" = "coral1", "2" = "cyan2"),name="Calculation type",labels=c("With ground","Without ground")) +
-  xlab("Feature class: Cover") + ylab("Ratio[%]") +
-  theme_bw(base_size = 17)
-
-vegetation_wgr_h=featuretable_l1_a[ ,c(3:7)]
-vegetation_whgr_h=featuretable_l1_b[,c(3:7)]
-
-vegetation_wgr_f_h=melt(vegetation_wgr_h)
-vegetation_whgr_f_h=melt(vegetation_whgr_h)
-
-vegetation_wgr_f_h$class <-1
-vegetation_whgr_f_h$class <-2
-
-vegetation_var_h=rbind(vegetation_wgr_f_h,vegetation_whgr_f_h)
-
-p2=ggplot(data = vegetation_var_h, aes(x=variable, y=value,fill=factor(class))) + geom_boxplot(show.legend = FALSE)+
-  scale_fill_manual(values = c("1" = "coral1", "2" = "cyan2"),name="Calculation type",labels=c("With ground","Without ground")) +
-  xlab("Feature class: 3D shape") + ylab("Ratio between eigenvalues") +
-  theme_bw(base_size = 17)
-
-vegetation_wgr_h=featuretable_l1_a[ ,c(8:11)]
-vegetation_whgr_h=featuretable_l1_b[,c(8:11)]
-
-vegetation_wgr_f_h=melt(vegetation_wgr_h)
-vegetation_whgr_f_h=melt(vegetation_whgr_h)
-
-vegetation_wgr_f_h$class <-1
-vegetation_whgr_f_h$class <-2
-
-vegetation_var_h=rbind(vegetation_wgr_f_h,vegetation_whgr_f_h)
-
-p3a=ggplot(data = vegetation_var_h, aes(x=variable, y=value,fill=factor(class))) + geom_boxplot(show.legend = FALSE)+
-  scale_fill_manual(values = c("1" = "coral1", "2" = "cyan2"),name="Calculation type",labels=c("With ground","Without ground")) +
-  xlab("Feature class: Vertical variability") + ylab("Variability [m]") +
-  theme_bw(base_size = 17)
-
-vegetation_wgr_h=featuretable_l1_a[ ,c(12:15)]
-vegetation_whgr_h=featuretable_l1_b[,c(12:15)]
-
-vegetation_wgr_f_h=melt(vegetation_wgr_h)
-vegetation_whgr_f_h=melt(vegetation_whgr_h)
-
-vegetation_wgr_f_h$class <-1
-vegetation_whgr_f_h$class <-2
-
-vegetation_var_h=rbind(vegetation_wgr_f_h,vegetation_whgr_f_h)
-
-p3b=ggplot(data = vegetation_var_h, aes(x=variable, y=value,fill=factor(class))) + geom_boxplot(show.legend = FALSE)+
-  scale_fill_manual(values = c("1" = "coral1", "2" = "cyan2"),name="Calculation type",labels=c("With ground","Without ground")) +
-  xlab("Feature class: Vertical variability") + ylab("Variability [m]") +
-  theme_bw(base_size = 17)
-
-vegetation_wgr_h=featuretable_l1_a[ ,c(16:20)]
-vegetation_whgr_h=featuretable_l1_b[,c(16:20)]
-
-vegetation_wgr_f_h=melt(vegetation_wgr_h)
-vegetation_whgr_f_h=melt(vegetation_whgr_h)
-
-vegetation_wgr_f_h$class <-1
-vegetation_whgr_f_h$class <-2
-
-vegetation_var_h=rbind(vegetation_wgr_f_h,vegetation_whgr_f_h)
-
-p4=ggplot(data = vegetation_var_h, aes(x=variable, y=value,fill=factor(class))) + geom_boxplot(show.legend = FALSE)+
-  scale_fill_manual(values = c("1" = "coral1", "2" = "cyan2"),name="Calculation type",labels=c("With ground","Without ground")) +
-  xlab("Feature class: Horizontal variability") + ylab("Variability [m]") +
-  theme_bw(base_size = 17)
-
-vegetation_wgr_h=featuretable_l1_a[ ,c(21:26)]
-vegetation_whgr_h=featuretable_l1_b[,c(21:26)]
-
-vegetation_wgr_f_h=melt(vegetation_wgr_h)
-vegetation_whgr_f_h=melt(vegetation_whgr_h)
-
-vegetation_wgr_f_h$class <-1
-vegetation_whgr_f_h$class <-2
-
-vegetation_var_h=rbind(vegetation_wgr_f_h,vegetation_whgr_f_h)
-
-p5=ggplot(data = vegetation_var_h, aes(x=variable, y=value,fill=factor(class))) + geom_boxplot(show.legend = FALSE)+
-  scale_fill_manual(values = c("1" = "coral1", "2" = "cyan2"),name="Calculation type",labels=c("With ground","Without ground")) +
-  xlab("Feature class: Height") + ylab("Height [m]") +
-  theme_bw(base_size = 17)
-
-p0=ggplot(data = vegetation_var, aes(x=variable, y=value,fill=factor(class))) + geom_boxplot(show.legend = TRUE)+
-  scale_fill_manual(values = c("1" = "coral1", "2" = "cyan2"),name="Calculation type",labels=c("With ground","Without ground")) +
-  xlab("Feature class: Cover") + ylab("Ratio[%]") +
-  theme_bw(base_size = 25)
-
-legend <- get_legend(p0)
-
-grid.arrange(
-  p2,
-  p5,
-  p4,
-  p3a,
-  p3b,
-  legend,
-  ncol=2,
-  nrow=3,
-  layout_matrix=rbind(c(1,2),c(3,4),c(5,6))
-)
-
-# Correlations
-names(featuretable_l1_a) <- c("C_puls_g","C_can_g","S_curv_g","S_lin_g","S_plan_g","S_sph_g","S_ani_g","VV_sd_g","VV_var_g","VV_skew_g","VV_kurt_g","VV_cr_g","VV_vdr_g","VV_simp_g","VV_shan_g","HV_rough_g","HV_tpi_g","HV_tri_g",
-                              "HV_sd_g","HV_var_g","H_max_g","H_mean_g","H_med_g","H_25p_g","H_75p_g","H_90p_g")
-
-names(featuretable_l1_b) <- c("C_puls_v","C_can_v","S_curv_v","S_lin_v","S_plan_v","S_sph_v","S_ani_v","VV_sd_v","VV_var_v","VV_skew_v","VV_kurt_v","VV_cr_v","VV_vdr_v","VV_simp_v","VV_shan_v","HV_rough_v","HV_tpi_v","HV_tri_v",
-                              "HV_sd_v","HV_var_v","H_max_v","H_mean_v","H_med_v","H_25p_v","H_75p_v","H_90p_v")
-
-corr_gr_wgr = round(cor(featuretable_l1_a,featuretable_l1_b,method="spearman"), 2)
-
-diag_gr_wgr=data.frame("variables"=c("C_puls","C_can","S_curv","S_lin","S_plan","S_sph","S_ani","VV_sd","VV_var",
-                                     "VV_skew","VV_kurt","VV_cr","VV_vdr","VV_simp","VV_shan","HV_rough","HV_tpi",
-                                     "HV_tri","HV_sd","HV_var","H_max","H_mean","H_med","H_25p","H_75p","H_90p"),
-                       "correlation"=diag(corr_gr_wgr))
-
-diag_gr_wgr=diag_gr_wgr[order(-diag_gr_wgr$correlation),]
-tab_df(diag_gr_wgr,file="ex.doc")
-
-correlationMatrix_grwgr <- cor(featuretable_l1_a,featuretable_l1_b,method="spearman")
-
-col <- colorRampPalette(c("#77AADD", "#4477AA", "#FFFFFF", "#EE9988","#BB4444"))
-
-corrplot(correlationMatrix_grwgr, method="color", col=col(200),  
-         type="upper", 
-         addCoef.col = "black", # Add coefficient of correlation
-         tl.col="black", tl.srt=45, font=30, #Text label color and rotation
-         # Combine with significance
-         # hide correlation coefficient on the principal diagonal
-         diag=TRUE)
-
-# Corr. features
-correlationMatrix <- cor(featuretable_l1[,1:26],method="spearman")
-p.mat <- cor.mtest(featuretable_l1[,1:26])
-
-col <- colorRampPalette(c("#77AADD", "#4477AA", "#FFFFFF", "#EE9988","#BB4444"))
-
-highlyCorrelated <- findCorrelation(correlationMatrix, cutoff=0.9)
-featuretable_l1_ncorr=featuretable_l1[,sort(highlyCorrelated)]
-names(featuretable_l1_ncorr)
-
-#l2
-correlationMatrix_l2 <- cor(featuretable_l2[,1:26],method="spearman")
-p.mat_l2 <- cor.mtest(featuretable_l2[,1:26])
-
-col <- colorRampPalette(c("#77AADD", "#4477AA", "#FFFFFF", "#EE9988","#BB4444"))
-
-highlyCorrelated_l2 <- findCorrelation(correlationMatrix_l2, cutoff=0.9)
-featuretable_l2_ncorr=featuretable_l2[,sort(highlyCorrelated_l2)]
-names(featuretable_l2_ncorr)
-
-#l3
-correlationMatrix_l3 <- cor(featuretable_l3[,1:26],method="spearman")
-p.mat_l3 <- cor.mtest(featuretable_l3[,1:26])
-
-col <- colorRampPalette(c("#77AADD", "#4477AA", "#FFFFFF", "#EE9988","#BB4444"))
-
-highlyCorrelated <- findCorrelation(correlationMatrix_l3, cutoff=0.9)
-featuretable_l3_ncorr=featuretable_l3[,sort(highlyCorrelated)]
-names(featuretable_l3_ncorr)
-
-par(mfrow=c(1,1))
-
-corrplot(correlationMatrix, method="color", col=col(200),  
-         type="upper", 
-         addCoef.col = "black", # Add coefficient of correlation
-         tl.col="black", tl.srt=45, #Text label color and rotation
-         # Combine with significance
-         p.mat = p.mat, sig.level = 0.01, insig = "blank", 
-         # hide correlation coefficient on the principal diagonal
-         diag=TRUE)
-
-corrplot(correlationMatrix_l2, method="color", col=col(200),  
-         type="upper", 
-         addCoef.col = "black", # Add coefficient of correlation
-         tl.col="black", tl.srt=45, #Text label color and rotation
-         # Combine with significance
-         p.mat = p.mat_l2, sig.level = 0.01, insig = "blank", 
-         # hide correlation coefficient on the principal diagonal
-         diag=TRUE)
-
-corrplot(correlationMatrix_l3, method="color", col=col(200),  
-         type="upper", 
-         addCoef.col = "black", # Add coefficient of correlation
-         tl.col="black", tl.srt=45, #Text label color and rotation
-         # Combine with significance
-         p.mat = p.mat_l3, sig.level = 0.01, insig = "blank", 
-         # hide correlation coefficient on the principal diagonal
-         diag=TRUE)
 
 # RFE results with feature importance + all ranked feature importance
 rfe_l1_df=data.frame(rfe_l1$results$Variables, rfe_l1$results$Accuracy, rfe_l1$results$AccuracySD)
@@ -306,7 +64,7 @@ t_l3 <- textGrob("Level 3: Reedbed habitat",gp=gpar(fontsize=22, col="black", fo
 #l1
 feaimp_l1=rfe_l1[["variables"]]
 
-feaimp_l1_all=feaimp_l1[feaimp_l1$Variables==26,]
+feaimp_l1_all=feaimp_l1[feaimp_l1$Variables==16,]
 
 feaimp_l1_all_pfea <- feaimp_l1_all %>%
   group_by(var) %>%
@@ -318,7 +76,7 @@ feaimp_l1_all_pfea_clas=add_varclass(feaimp_l1_all_pfea)
 #l2
 feaimp_l2=rfe_l2[["variables"]]
 
-feaimp_l2_all=feaimp_l2[feaimp_l2$Variables==26,]
+feaimp_l2_all=feaimp_l2[feaimp_l2$Variables==16,]
 
 feaimp_l2_all_pfea <- feaimp_l2_all %>%
   group_by(var) %>%
@@ -330,7 +88,7 @@ feaimp_l2_all_pfea_clas=add_varclass(feaimp_l2_all_pfea)
 #l3
 feaimp_l3=rfe_l3[["variables"]]
 
-feaimp_l3_all=feaimp_l3[feaimp_l3$Variables==26,]
+feaimp_l3_all=feaimp_l3[feaimp_l3$Variables==16,]
 
 feaimp_l3_all_pfea <- feaimp_l3_all %>%
   group_by(var) %>%
@@ -341,22 +99,22 @@ feaimp_l3_all_pfea_clas=add_varclass(feaimp_l3_all_pfea)
 
 p4=ggplot(feaimp_l1_all_pfea_clas, aes(x=reorder(variable,mean_imp),y=mean_imp)) + geom_pointrange(aes(ymin=mean_imp-sd_imp, ymax=mean_imp+sd_imp,color=factor(varclass)),size=1,show.legend = FALSE) + coord_flip() + theme_bw(base_size = 19) +
   geom_hline(yintercept = feaimp_l1_all_pfea_clas$mean_imp[feaimp_l1_all_pfea_clas$variable=="C_can"], color="red", size=1.5) + ggtitle("d)") +
-  xlab("LiDAR metrics") + ylab("Feature importance (MDI)") + ylim(-0.5,7) + theme(axis.text.y=element_text(angle=0,colour = c(rep("black",26-within5Pct_l1), rep("red",within5Pct_l1)))) +
-  scale_color_manual(values = c("1" = "deeppink", "2" = "chocolate4", "3" = "blueviolet","4"="darkolivegreen3", "5"="blue"),name="Feature class",labels=c("Coverage (C_*)","3D shape (3S_*)", "Vertical variability (VV_*)","Height (H_*)","Horizontal variability (HV_*)"))
+  xlab("LiDAR metrics") + ylab("Feature importance (MDI)") + ylim(-1,12) + theme(axis.text.y=element_text(angle=0,colour = c(rep("black",26-within5Pct_l1), rep("red",within5Pct_l1)))) +
+  scale_color_manual(values = c("1" = "deeppink", "2" = "orange", "3" = "blueviolet","4"="blue", "5"="darkolivegreen3", "6"="chocolate4"),name="Feature class",labels=c("Coverage (C_*)","3D shape (3S_*)", "Vertical variability (VV_*)","Height (H_*)","Horizontal variability (HV_*)"))
 
 p5=ggplot(feaimp_l2_all_pfea_clas, aes(x=reorder(variable,mean_imp),y=mean_imp)) + geom_pointrange(aes(ymin=mean_imp-sd_imp, ymax=mean_imp+sd_imp,color=factor(varclass)),size=1,show.legend = FALSE) + coord_flip() + theme_bw(base_size = 19) +
   geom_hline(yintercept = feaimp_l2_all_pfea_clas$mean_imp[feaimp_l2_all_pfea_clas$variable=="VV_var"], color="red", size=1.5) + ggtitle("e)") +
-  xlab("LiDAR metrics") + ylab("Feature importance (MDI)") + ylim(-0.5,7) + theme(axis.text.y=element_text(angle=0,colour = c(rep("black",26-within5Pct_l2), rep("red",within5Pct_l2)))) +
-  scale_color_manual(values = c("1" = "deeppink", "2" = "chocolate4", "3" = "blueviolet","4"="darkolivegreen3", "5"="blue"),name="Feature class",labels=c("Coverage (C_*)","3D shape (3S_*)", "Vertical variability (VV_*)","Height (H_*)","Horizontal variability (HV_*)"))
+  xlab("LiDAR metrics") + ylab("Feature importance (MDI)") + ylim(-1,12) + theme(axis.text.y=element_text(angle=0,colour = c(rep("black",26-within5Pct_l2), rep("red",within5Pct_l2)))) +
+  scale_color_manual(values = c("1" = "deeppink", "2" = "orange", "3" = "blueviolet","4"="blue", "5"="darkolivegreen3", "6"="chocolate4"),name="Feature class",labels=c("Coverage (C_*)","3D shape (3S_*)", "Vertical variability (VV_*)","Height (H_*)","Horizontal variability (HV_*)"))
 
 p6=ggplot(feaimp_l3_all_pfea_clas, aes(x=reorder(variable,mean_imp),y=mean_imp)) + geom_pointrange(aes(ymin=mean_imp-sd_imp, ymax=mean_imp+sd_imp,color=factor(varclass)),size=1,show.legend = FALSE) + coord_flip() + theme_bw(base_size = 19) +
   geom_hline(yintercept = feaimp_l3_all_pfea_clas$mean_imp[feaimp_l3_all_pfea_clas$variable=="HV_rough"], color="red", size=1.5) + ggtitle("f)") +
-  xlab("LiDAR metrics") + ylab("Feature importance (MDI)") + ylim(-0.5,7) + theme(axis.text.y=element_text(angle=0,colour = c(rep("black",26-within5Pct_l3), rep("red",within5Pct_l3)))) +
-  scale_color_manual(values = c("1" = "deeppink", "2" = "chocolate4", "3" = "blueviolet","4"="darkolivegreen3", "5"="blue"),name="Feature class",labels=c("Coverage (C_*)","3D shape (3S_*)", "Vertical variability (VV_*)","Height (H_*)","Horizontal variability (HV_*)"))
+  xlab("LiDAR metrics") + ylab("Feature importance (MDI)") + ylim(-1,12) + theme(axis.text.y=element_text(angle=0,colour = c(rep("black",26-within5Pct_l3), rep("red",within5Pct_l3)))) +
+  scale_color_manual(values = c("1" = "deeppink", "2" = "orange", "3" = "blueviolet","4"="blue", "5"="darkolivegreen3", "6"="chocolate4"),name="Feature class",labels=c("Coverage (C_*)","3D shape (3S_*)", "Vertical variability (VV_*)","Height (H_*)","Horizontal variability (HV_*)"))
 
 p0=ggplot(feaimp_l1_all_pfea_clas, aes(x=reorder(variable,mean_imp),y=mean_imp)) + geom_pointrange(aes(ymin=mean_imp-sd_imp, ymax=mean_imp+sd_imp,color=factor(varclass)),size=1,show.legend = TRUE) + coord_flip() + theme_bw(base_size = 25) +
   xlab("LiDAR metrics") + ylab("Feature importance") +
-  scale_color_manual(values = c("1" = "deeppink", "2" = "chocolate4", "3" = "blueviolet","4"="blue", "5"="darkolivegreen3"),name="Feature class",labels=c("Cover (C_*)","3D shape (S_*)", "Vertical variability (VV_*)","Horizontal variability (HV_*)","Height (H_*)")) +
+  scale_color_manual(values = c("1" = "deeppink", "2" = "orange", "3" = "blueviolet","4"="blue", "5"="darkolivegreen3", "6"="chocolate4"),name="Feature class",labels=c("Cover (C_*)","3D shape (S_*)", "Vertical variability (VV_*)","Horizontal variability (HV_*)","Height (H_*)")) +
   theme(axis.text.y=element_text(angle=0)) + theme(legend.position="bottom")
 
 legend <- get_legend(p0)

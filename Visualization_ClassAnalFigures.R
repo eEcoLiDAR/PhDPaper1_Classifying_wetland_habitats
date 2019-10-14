@@ -18,18 +18,18 @@ library(sjPlot)
 
 #source("D:/Koma/GitHub/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
 #source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
-source("C:/Koma/Github/komazsofi/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
+source("D:/Koma/GitHub/PhDPaper1_Classifying_wetland_habitats/Function_Classification.R")
 
 # Set global variables
 #setwd("D:/Koma/Paper1_v2/Run4_2019April/")
 #setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Results_09April/")
-setwd("C:/Koma/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Results_09April/")
+setwd("D:/Koma/Paper1/Revision/Results/5m/")
 
 # Import
 
-load("rfe_l1_rerank.RData")
-load("rfe_l2_rerank.RData")
-load("rfe_l3_rerank.RData")
+load("rfe_l1.RData")
+load("rfe_l2.RData")
+load("rfe_l3.RData")
 
 # Conf matrix
 load("conf_m_l1.RData")
@@ -43,13 +43,13 @@ rfe_l2_df=data.frame(rfe_l2$results$Variables, rfe_l2$results$Accuracy, rfe_l2$r
 rfe_l3_df=data.frame(rfe_l3$results$Variables, rfe_l3$results$Accuracy, rfe_l3$results$AccuracySD)
 
 absoluteBest_l1 <- pickSizeBest(rfe_l1$results, metric = "Accuracy", maximize = TRUE)
-within5Pct_l1 <- pickSizeTolerance(rfe_l1$results, metric = "Accuracy", maximize = TRUE)
+within5Pct_l1 <- pickSizeTolerance(rfe_l1$results, metric = "Accuracy", maximize = TRUE,tol=2.5)
 
 absoluteBest_l2 <- pickSizeBest(rfe_l2$results, metric = "Accuracy", maximize = TRUE)
-within5Pct_l2 <- pickSizeTolerance(rfe_l2$results, metric = "Accuracy", maximize = TRUE)
+within5Pct_l2 <- pickSizeTolerance(rfe_l2$results, metric = "Accuracy", maximize = TRUE,tol=2.5)
 
 absoluteBest_l3 <- pickSizeBest(rfe_l3$results, metric = "Accuracy", maximize = TRUE)
-within5Pct_l3 <- pickSizeTolerance(rfe_l3$results, metric = "Accuracy", maximize = TRUE)
+within5Pct_l3 <- pickSizeTolerance(rfe_l3$results, metric = "Accuracy", maximize = TRUE,tol=2.5)
 
 p1=ggplot(rfe_l1_df,aes(x=rfe_l1$results$Variables,y=rfe_l1$results$Accuracy))+geom_point(color="black",size=3) + geom_line(color="black",size=2) + geom_vline(xintercept = within5Pct_l1, color="red", size=2) + geom_ribbon(aes(ymin=rfe_l1$results$Accuracy-rfe_l1$results$AccuracySD, ymax=rfe_l1$results$Accuracy+rfe_l1$results$AccuracySD), linetype=2, alpha=0.1) + xlab("Number of LiDAR metrics") + ylab("Accuracy") + ylim(0, 1) + theme_bw(base_size = 17) + theme(plot.title = element_text(size=17))
 p2=ggplot(rfe_l2_df,aes(x=rfe_l2$results$Variables,y=rfe_l2$results$Accuracy))+geom_point(color="black",size=3) + geom_line(color="black",size=2) + geom_vline(xintercept = within5Pct_l2, color="red", size=2) + geom_ribbon(aes(ymin=rfe_l2$results$Accuracy-rfe_l2$results$AccuracySD, ymax=rfe_l2$results$Accuracy+rfe_l2$results$AccuracySD), linetype=2, alpha=0.1) + xlab("Number of LiDAR metrics") + ylab("Accuracy") + ylim(0, 1) + theme_bw(base_size = 17) + theme(plot.title = element_text(size=17))
@@ -66,7 +66,7 @@ grid.arrange(
 #l1
 feaimp_l1=rfe_l1[["variables"]]
 
-feaimp_l1_all=feaimp_l1[feaimp_l1$Variables==26,]
+feaimp_l1_all=feaimp_l1[feaimp_l1$Variables==16,]
 
 feaimp_l1_all_pfea <- feaimp_l1_all %>%
   group_by(var) %>%
@@ -78,7 +78,7 @@ feaimp_l1_all_pfea_clas=add_varclass(feaimp_l1_all_pfea)
 #l2
 feaimp_l2=rfe_l2[["variables"]]
 
-feaimp_l2_all=feaimp_l2[feaimp_l2$Variables==26,]
+feaimp_l2_all=feaimp_l2[feaimp_l2$Variables==16,]
 
 feaimp_l2_all_pfea <- feaimp_l2_all %>%
   group_by(var) %>%
@@ -90,7 +90,7 @@ feaimp_l2_all_pfea_clas=add_varclass(feaimp_l2_all_pfea)
 #l3
 feaimp_l3=rfe_l3[["variables"]]
 
-feaimp_l3_all=feaimp_l3[feaimp_l3$Variables==26,]
+feaimp_l3_all=feaimp_l3[feaimp_l3$Variables==16,]
 
 feaimp_l3_all_pfea <- feaimp_l3_all %>%
   group_by(var) %>%
