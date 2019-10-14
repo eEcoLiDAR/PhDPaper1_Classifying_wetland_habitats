@@ -90,7 +90,7 @@ accuracies_l1 <-c()
 kappa_l1 <-c()
 confm_m <- data.frame(TP=integer(),FN=integer(),FP=integer(),TN=integer())
 
-for (i in 1:50){
+for (i in 1:100){
   set.seed(first_seed)
   first_seed <- first_seed+1
   
@@ -152,7 +152,7 @@ prodacc_c2_l2 <-c()
 prodacc_c3_l2 <-c()
 prodacc_c4_l2 <-c()
 
-for (i in 1:50){
+for (i in 1:100){
   set.seed(first_seed)
   first_seed <- first_seed+1
   
@@ -219,7 +219,7 @@ prodacc_c1_l3 <-c()
 prodacc_c2_l3 <-c()
 prodacc_c3_l3 <-c()
 
-for (i in 1:50){
+for (i in 1:100){
   set.seed(first_seed)
   first_seed <- first_seed+1
   
