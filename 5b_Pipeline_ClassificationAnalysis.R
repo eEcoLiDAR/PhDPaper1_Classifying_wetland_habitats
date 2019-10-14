@@ -62,13 +62,13 @@ rfe_l3 <- rfe(featuretable_l3[,1:16], factor(featuretable_l3$V3), rfeControl=con
 
 
 absoluteBest_l1 <- pickSizeBest(rfe_l1$results, metric = "Accuracy", maximize = TRUE)
-within5Pct_l1 <- pickSizeTolerance(rfe_l1$results, metric = "Accuracy", maximize = TRUE,tol = 2.5)
+within5Pct_l1 <- pickSizeTolerance(rfe_l1$results, metric = "Accuracy", maximize = TRUE,tol = 4)
 
 absoluteBest_l2 <- pickSizeBest(rfe_l2$results, metric = "Accuracy", maximize = TRUE)
-within5Pct_l2 <- pickSizeTolerance(rfe_l2$results, metric = "Accuracy", maximize = TRUE,tol = 2.5)
+within5Pct_l2 <- pickSizeTolerance(rfe_l2$results, metric = "Accuracy", maximize = TRUE,tol = 4)
 
 absoluteBest_l3 <- pickSizeBest(rfe_l3$results, metric = "Accuracy", maximize = TRUE)
-within5Pct_l3 <- pickSizeTolerance(rfe_l3$results, metric = "Accuracy", maximize = TRUE,tol = 2.5)
+within5Pct_l3 <- pickSizeTolerance(rfe_l3$results, metric = "Accuracy", maximize = TRUE,tol = 4)
 
 save(rfe_l1,file="rfe_l1.RData")
 save(rfe_l2,file="rfe_l2.RData")
@@ -83,43 +83,6 @@ load("rfe_l3.RData")
 # RFE with opt. nof fea -- create valid confusion matrix
 
 # level 1
-control <- rfeControl(functions=rfFuncs, method="cv", number=50,returnResamp = "all")
-#set.seed(50)
-rfe_l1_facc <- rfe(featuretable_l1[,rfe_l1$optVariables[1:5]],factor(featuretable_l1$layer), rfeControl=control,sizes=c(1:5),ntree=100,maximize = TRUE)
-
-conf_m_fromrfe_l1_cl1=confusionMatrix(rfe_l1_facc[["fit"]][["predicted"]], rfe_l1_facc[["fit"]][["y"]],mode = "everything",positive = "1")
-conf_m_fromrfe_l1_cl2=confusionMatrix(rfe_l1_facc[["fit"]][["predicted"]], rfe_l1_facc[["fit"]][["y"]],mode = "everything",positive = "2")
-
-sink(paste("acc_l1_rfe.txt",sep=""))
-print("pos class 1")
-print(conf_m_fromrfe_l1_cl1)
-print("pos class 2")
-print(conf_m_fromrfe_l1_cl2)
-sink()
-
-# level 2
-control <- rfeControl(functions=rfFuncs, method="cv", number=50,returnResamp = "all")
-set.seed(50)
-rfe_l2_facc <- rfe(featuretable_l2[,rfe_l2$optVariables[1:10]],factor(featuretable_l2$layer), rfeControl=control,sizes=c(1,10),ntree=100,maximize = TRUE)
-
-conf_m_fromrfe_l2=confusionMatrix(rfe_l2_facc[["fit"]][["predicted"]], rfe_l2_facc[["fit"]][["y"]],mode = "everything")
-
-sink(paste("acc_l2_rfe.txt",sep=""))
-print(conf_m_fromrfe_l2)
-sink()
-
-# level 3
-control <- rfeControl(functions=rfFuncs, method="cv", number=50,returnResamp = "all")
-set.seed(50)
-rfe_l3_facc <- rfe(featuretable_l3[,rfe_l3$optVariables[1:10]],factor(featuretable_l3$layer), rfeControl=control,sizes=c(1,10),ntree=100,maximize = TRUE)
-
-conf_m_fromrfe_l3=confusionMatrix(rfe_l3_facc[["fit"]][["predicted"]], rfe_l3_facc[["fit"]][["y"]],mode = "everything")
-
-sink(paste("acc_l3_rfe.txt",sep=""))
-print(conf_m_fromrfe_l3)
-sink()
-
-# level 1
 
 # multiple run
 first_seed <- 5
@@ -131,14 +94,14 @@ for (i in 1:50){
   set.seed(first_seed)
   first_seed <- first_seed+1
   
-  trainIndex_l1 <- caret::createDataPartition(y=featuretable_l1$layer, p=0.75, list=FALSE)
+  trainIndex_l1 <- caret::createDataPartition(y=featuretable_l1$V3, p=0.75, list=FALSE)
   trainingSet_l1 <- featuretable_l1[trainIndex_l1,]
   testingSet_l1 <- featuretable_l1[-trainIndex_l1,]
   
-  modelFit_l1 <- randomForest(trainingSet_l1[,rfe_l1$optVariables[1:5]],factor(trainingSet_l1$layer),ntree=100,importance = TRUE)
-  prediction_l1 <- predict(modelFit_l1,testingSet_l1[ ,rfe_l1$optVariables[1:5]])
+  modelFit_l1 <- randomForest(trainingSet_l1[,rfe_l1$optVariables[1:3]],factor(trainingSet_l1$V3),ntree=100,importance = TRUE)
+  prediction_l1 <- predict(modelFit_l1,testingSet_l1[ ,rfe_l1$optVariables[1:3]])
   
-  conf_m_l1=confusionMatrix(factor(prediction_l1), factor(testingSet_l1$layer),mode = "everything")
+  conf_m_l1=confusionMatrix(factor(prediction_l1), factor(testingSet_l1$V3),mode = "everything")
   
   accuracies_l1 <- c(accuracies_l1,conf_m_l1$overall["Accuracy"])
   kappa_l1 <- c(kappa_l1,conf_m_l1$overall["Kappa"])
@@ -164,14 +127,14 @@ print(paste("Multi run pred acc acc class2:",round(mean(confm_m$prodacc_n),3)*10
 sink()
 
 # 1 run
-trainIndex_l1 <- caret::createDataPartition(y=featuretable_l1$layer, p=0.75, list=FALSE)
+trainIndex_l1 <- caret::createDataPartition(y=featuretable_l1$V3, p=0.75, list=FALSE)
 trainingSet_l1 <- featuretable_l1[trainIndex_l1,]
 testingSet_l1 <- featuretable_l1[-trainIndex_l1,]
 
-modelFit_l1 <- randomForest(trainingSet_l1[,rfe_l1$optVariables[1:within5Pct_l1]],factor(trainingSet_l1$layer),ntree=100,importance = TRUE)
+modelFit_l1 <- randomForest(trainingSet_l1[,rfe_l1$optVariables[1:within5Pct_l1]],factor(trainingSet_l1$V3),ntree=100,importance = TRUE)
 prediction_l1 <- predict(modelFit_l1,testingSet_l1[ ,rfe_l1$optVariables[1:within5Pct_l1]])
 
-conf_m_l1=confusionMatrix(factor(prediction_l1), factor(testingSet_l1$layer),mode = "everything")
+conf_m_l1=confusionMatrix(factor(prediction_l1), factor(testingSet_l1$V3),mode = "everything")
 
 # level 2
 
@@ -193,14 +156,14 @@ for (i in 1:50){
   set.seed(first_seed)
   first_seed <- first_seed+1
   
-  trainIndex_l2 <- caret::createDataPartition(y=featuretable_l2$layer, p=0.75, list=FALSE)
+  trainIndex_l2 <- caret::createDataPartition(y=featuretable_l2$V3, p=0.75, list=FALSE)
   trainingSet_l2 <- featuretable_l2[trainIndex_l2,]
   testingSet_l2 <- featuretable_l2[-trainIndex_l2,]
   
-  modelFit_l2 <- randomForest(trainingSet_l2[,rfe_l2$optVariables[1:10]],factor(trainingSet_l2$layer),ntree=100,importance = TRUE)
-  prediction_l2 <- predict(modelFit_l2,testingSet_l2[ ,rfe_l2$optVariables[1:10]])
+  modelFit_l2 <- randomForest(trainingSet_l2[,rfe_l2$optVariables[1:7]],factor(trainingSet_l2$V3),ntree=100,importance = TRUE)
+  prediction_l2 <- predict(modelFit_l2,testingSet_l2[ ,rfe_l2$optVariables[1:7]])
   
-  conf_m_l2=confusionMatrix(factor(prediction_l2), factor(testingSet_l2$layer),mode = "everything")
+  conf_m_l2=confusionMatrix(factor(prediction_l2), factor(testingSet_l2$V3),mode = "everything")
   
   accuracies_l2 <- c(accuracies_l2,conf_m_l2$overall["Accuracy"])
   kappa_l2 <- c(kappa_l2,conf_m_l2$overall["Kappa"])
@@ -233,14 +196,14 @@ print(paste("Multi run prod acc class4:",round(mean(prodacc_c4_l2),3)*100,round(
 sink()
 
 # 1 run
-trainIndex_l2 <- caret::createDataPartition(y=featuretable_l2$layer, p=0.75, list=FALSE)
+trainIndex_l2 <- caret::createDataPartition(y=featuretable_l2$V3, p=0.75, list=FALSE)
 trainingSet_l2 <- featuretable_l2[trainIndex_l2,]
 testingSet_l2 <- featuretable_l2[-trainIndex_l2,]
 
-modelFit_l2 <- randomForest(trainingSet_l2[,rfe_l2$optVariables[1:within5Pct_l2]],factor(trainingSet_l2$layer),ntree=100,importance = TRUE)
+modelFit_l2 <- randomForest(trainingSet_l2[,rfe_l2$optVariables[1:within5Pct_l2]],factor(trainingSet_l2$V3),ntree=100,importance = TRUE)
 prediction_l2 <- predict(modelFit_l2,testingSet_l2[ ,rfe_l2$optVariables[1:within5Pct_l2]])
 
-conf_m_l2=confusionMatrix(factor(prediction_l2), factor(testingSet_l2$layer),mode = "everything")
+conf_m_l2=confusionMatrix(factor(prediction_l2), factor(testingSet_l2$V3),mode = "everything")
 
 # level 3
 
@@ -260,14 +223,14 @@ for (i in 1:50){
   set.seed(first_seed)
   first_seed <- first_seed+1
   
-  trainIndex_l3 <- caret::createDataPartition(y=featuretable_l3$layer, p=0.75, list=FALSE)
+  trainIndex_l3 <- caret::createDataPartition(y=featuretable_l3$V3, p=0.75, list=FALSE)
   trainingSet_l3 <- featuretable_l3[trainIndex_l3,]
   testingSet_l3 <- featuretable_l3[-trainIndex_l3,]
   
-  modelFit_l3 <- randomForest(trainingSet_l3[,rfe_l3$optVariables[1:10]],factor(trainingSet_l3$layer),ntree=100,importance = TRUE)
-  prediction_l3 <- predict(modelFit_l3,testingSet_l3[ ,rfe_l3$optVariables[1:10]])
+  modelFit_l3 <- randomForest(trainingSet_l3[,rfe_l3$optVariables[1:4]],factor(trainingSet_l3$V3),ntree=100,importance = TRUE)
+  prediction_l3 <- predict(modelFit_l3,testingSet_l3[ ,rfe_l3$optVariables[1:4]])
   
-  conf_m_l3=confusionMatrix(factor(prediction_l3), factor(testingSet_l3$layer),mode = "everything")
+  conf_m_l3=confusionMatrix(factor(prediction_l3), factor(testingSet_l3$V3),mode = "everything")
   
   accuracies_l3 <- c(accuracies_l3,conf_m_l3$overall["Accuracy"])
   kappa_l3 <- c(kappa_l3,conf_m_l3$overall["Kappa"])
@@ -297,14 +260,14 @@ print(paste("Multi run prod acc class3:",round(mean(prodacc_c3_l3),3)*100,round(
 sink()
 
 # 1 run
-trainIndex_l3 <- caret::createDataPartition(y=featuretable_l3$layer, p=0.75, list=FALSE)
+trainIndex_l3 <- caret::createDataPartition(y=featuretable_l3$V3, p=0.75, list=FALSE)
 trainingSet_l3 <- featuretable_l3[trainIndex_l3,]
 testingSet_l3 <- featuretable_l3[-trainIndex_l3,]
 
-modelFit_l3 <- randomForest(trainingSet_l3[,rfe_l3$optVariables[1:within5Pct_l3]],factor(trainingSet_l3$layer),ntree=100,importance = TRUE)
+modelFit_l3 <- randomForest(trainingSet_l3[,rfe_l3$optVariables[1:within5Pct_l3]],factor(trainingSet_l3$V3),ntree=100,importance = TRUE)
 prediction_l3 <- predict(modelFit_l3,testingSet_l3[ ,rfe_l3$optVariables[1:within5Pct_l3]])
 
-conf_m_l3=confusionMatrix(factor(prediction_l3), factor(testingSet_l3$layer),mode = "everything")
+conf_m_l3=confusionMatrix(factor(prediction_l3), factor(testingSet_l3$V3),mode = "everything")
 
 # Export
 
