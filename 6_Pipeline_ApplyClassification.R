@@ -63,8 +63,8 @@ lidarmetrics_masked1 <- mask(lidarmetrics_forl23,formask)
 ### Level2 ###
 
 # Classification
-lidarmetrics_masked1_sel=lidarmetrics_masked1[[c("HV_var","VV_var","H_25p","C_can","C_b2","C_2.5","VV_vdr","S_lin")]]
-featuretable_l2_sel=featuretable_l2[,c("HV_var","VV_var","H_25p","C_can","C_b2","C_2.5","VV_vdr","S_lin","V3")]
+lidarmetrics_masked1_sel=lidarmetrics_masked1[[c("VV_var","H_25p","C_can","HV_var","C_b2","C_2.5","VV_vdr","S_lin","VV_coefvar","VV_skew","HV_tpi","VV_kurt")]]
+featuretable_l2_sel=featuretable_l2[,c("VV_var","H_25p","C_can","HV_var","C_b2","C_2.5","VV_vdr","S_lin","VV_coefvar","VV_skew","HV_tpi","VV_kurt","V3")]
 
 modelFit_2 <- randomForest(factor(V3)~.,data=featuretable_l2_sel,ntree=100)
 
