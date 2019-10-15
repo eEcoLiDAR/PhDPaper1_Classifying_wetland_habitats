@@ -14,14 +14,14 @@ library(ggrepel)
 library(reshape2)
 library(corrplot)
 
-#source("D:/Koma/GitHub/PhDPaper1_Classifying_wetland_habitats/Function_Classification.R")
-source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R") 
+source("D:/Koma/GitHub/PhDPaper1_Classifying_wetland_habitats/Function_Classification.R")
+#source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R") 
 #source("C:/Koma/Github/komazsofi/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R") #set where the Function*.R file located
 
 
 # Set global variables
-#setwd("D:/Koma/Paper1/Revision/Results/5m/")
-setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Paper1_revision/")
+setwd("D:/Koma/Paper1/Revision/Results/5m/")
+#setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Paper1_revision/")
 #setwd("C:/Koma/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Results_17April/")
 
 # Import
@@ -36,11 +36,11 @@ featuretable_l3=featuretable_l3[c("cancov","dens_perc_b2","dens_perc_b2_5","line
 
 # Pre-process - rename coloumns, add feature classes
 
-names(featuretable_l1) <- c("C_can","C_b2","C_2-5","S_lin","VV_var","VV_skew","VV_kurt","VV_vdr","HV_tpi","HV_var","H_25p","VV_coefvar","T_rough","T_asp","V3")
+names(featuretable_l1) <- c("C_can","C_b2","C_2.5","S_lin","VV_var","VV_skew","VV_kurt","VV_vdr","HV_tpi","HV_var","H_25p","VV_coefvar","T_rough","T_asp","V3")
 
-names(featuretable_l2) <- c("C_can","C_b2","C_2-5","S_lin","VV_var","VV_skew","VV_kurt","VV_vdr","HV_tpi","HV_var","H_25p","VV_coefvar","T_rough","T_asp","V3")
+names(featuretable_l2) <- c("C_can","C_b2","C_2.5","S_lin","VV_var","VV_skew","VV_kurt","VV_vdr","HV_tpi","HV_var","H_25p","VV_coefvar","T_rough","T_asp","V3")
 
-names(featuretable_l3) <- c("C_can","C_b2","C_2-5","S_lin","VV_var","VV_skew","VV_kurt","VV_vdr","HV_tpi","HV_var","H_25p","VV_coefvar","T_rough","T_asp","V3")
+names(featuretable_l3) <- c("C_can","C_b2","C_2.5","S_lin","VV_var","VV_skew","VV_kurt","VV_vdr","HV_tpi","HV_var","H_25p","VV_coefvar","T_rough","T_asp","V3")
 
 
 # RFE
