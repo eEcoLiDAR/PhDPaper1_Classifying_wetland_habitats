@@ -85,8 +85,8 @@ Analysis_FeatureImportance = function(forest)
 }
 
 Response_l1 = function(forest_l1,featuretable_l1,id) {
-  p1=partialPlot(forest_l1, featuretable_l1, impvar[id], 1, plot=FALSE)
-  p2=partialPlot(forest_l1, featuretable_l1, impvar[id], 2, plot=FALSE)
+  p1=partialPlot(forest_l1, featuretable_l1, impvar[id], "O", plot=FALSE)
+  p2=partialPlot(forest_l1, featuretable_l1, impvar[id], "V", plot=FALSE)
   
   response_l1_c1 <- data.frame(p1[["x"]], p1[["y"]])
   names(response_l1_c1)[1]<-"class_1_x"
@@ -104,10 +104,10 @@ Response_l1 = function(forest_l1,featuretable_l1,id) {
 }
 
 Response_l2 = function(forest_l1,featuretable_l1,id) {
-  p1=partialPlot(forest_l1, featuretable_l1, impvar[id], 1, plot=FALSE)
-  p2=partialPlot(forest_l1, featuretable_l1, impvar[id], 2, plot=FALSE)
-  p3=partialPlot(forest_l1, featuretable_l1, impvar[id], 3, plot=FALSE)
-  p4=partialPlot(forest_l1, featuretable_l1, impvar[id], 4, plot=FALSE)
+  p1=partialPlot(forest_l1, featuretable_l1, impvar[id], "B", plot=FALSE)
+  p2=partialPlot(forest_l1, featuretable_l1, impvar[id], "G", plot=FALSE)
+  p3=partialPlot(forest_l1, featuretable_l1, impvar[id], "R", plot=FALSE)
+  p4=partialPlot(forest_l1, featuretable_l1, impvar[id], "S", plot=FALSE)
   
   response_l1_c1 <- data.frame(p1[["x"]], p1[["y"]])
   names(response_l1_c1)[1]<-"class_1_x"
@@ -135,9 +135,9 @@ Response_l2 = function(forest_l1,featuretable_l1,id) {
 }
 
 Response_l3 = function(forest_l1,featuretable_l1,id) {
-  p1=partialPlot(forest_l1, featuretable_l1, impvar[id], 1, plot=FALSE)
-  p2=partialPlot(forest_l1, featuretable_l1, impvar[id], 2, plot=FALSE)
-  p3=partialPlot(forest_l1, featuretable_l1, impvar[id], 3, plot=FALSE)
+  p1=partialPlot(forest_l1, featuretable_l1, impvar[id], "Rk", plot=FALSE)
+  p2=partialPlot(forest_l1, featuretable_l1, impvar[id], "Rl", plot=FALSE)
+  p3=partialPlot(forest_l1, featuretable_l1, impvar[id], "Rw", plot=FALSE)
   
   response_l1_c1 <- data.frame(p1[["x"]], p1[["y"]])
   names(response_l1_c1)[1]<-"class_1_x"

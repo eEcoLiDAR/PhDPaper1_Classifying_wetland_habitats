@@ -14,33 +14,33 @@ library(ggrepel)
 library(reshape2)
 library(corrplot)
 
-source("D:/Koma/GitHub/PhDPaper1_Classifying_wetland_habitats/Function_Classification.R")
-#source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R") 
+#source("D:/Koma/GitHub/PhDPaper1_Classifying_wetland_habitats/Function_Classification.R")
+source("D:/GitHub/eEcoLiDAR/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R") 
 #source("C:/Koma/Github/komazsofi/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R") #set where the Function*.R file located
 
 
 # Set global variables
-setwd("D:/Koma/Paper1/Revision/Results/5m/")
-#setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Paper1_revision/")
+#setwd("D:/Koma/Paper1/Revision/Results/5m/")
+setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Paper1_revision/")
 #setwd("C:/Koma/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Results_17April/")
 
 # Import
 
-featuretable_l1=read.csv("featuretable_level1_500_5.csv")
-featuretable_l2=read.csv("featuretable_level2_500_5.csv")
-featuretable_l3=read.csv("featuretable_level3_500_5.csv")
+featuretable_l1=read.csv("featuretable_l1_5_500.csv")
+featuretable_l2=read.csv("featuretable_l2_5_500.csv")
+featuretable_l3=read.csv("featuretable_l3_5_500.csv")
 
-featuretable_l1=featuretable_l1[c("cancov","dens_perc_b2","dens_perc_b2_5","linearity","curvature","zvar","zskew","zkurto","canrelrat","vertdenrat","tpi","var_dsm","z025quantile","zcoeffvar","roughness.2","aspect","V3")]
-featuretable_l2=featuretable_l2[c("cancov","dens_perc_b2","dens_perc_b2_5","linearity","curvature","zvar","zskew","zkurto","canrelrat","vertdenrat","tpi","var_dsm","z025quantile","zcoeffvar","roughness.2","aspect","V3")]
-featuretable_l3=featuretable_l3[c("cancov","dens_perc_b2","dens_perc_b2_5","linearity","curvature","zvar","zskew","zkurto","canrelrat","vertdenrat","tpi","var_dsm","z025quantile","zcoeffvar","roughness.2","aspect","V3")]
+featuretable_l1=featuretable_l1[c("cancov","dens_perc_b2","dens_perc_b2_5","linearity","zvar","zskew","zkurto","vertdenrat","tpi","var_dsm","z025quantile","zcoeffvar","roughness.2","aspect","V3")]
+featuretable_l2=featuretable_l2[c("cancov","dens_perc_b2","dens_perc_b2_5","linearity","zvar","zskew","zkurto","vertdenrat","tpi","var_dsm","z025quantile","zcoeffvar","roughness.2","aspect","V3")]
+featuretable_l3=featuretable_l3[c("cancov","dens_perc_b2","dens_perc_b2_5","linearity","zvar","zskew","zkurto","vertdenrat","tpi","var_dsm","z025quantile","zcoeffvar","roughness.2","aspect","V3")]
 
 # Pre-process - rename coloumns, add feature classes
 
-names(featuretable_l1) <- c("C_can","C_b2","C_2-5","S_lin","S_curv","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","HV_tpi","HV_var","H_25p","VV_coefvar","T_rough","T_asp","V3")
+names(featuretable_l1) <- c("C_can","C_b2","C_2-5","S_lin","VV_var","VV_skew","VV_kurt","VV_vdr","HV_tpi","HV_var","H_25p","VV_coefvar","T_rough","T_asp","V3")
 
-names(featuretable_l2) <- c("C_can","C_b2","C_2-5","S_lin","S_curv","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","HV_tpi","HV_var","H_25p","VV_coefvar","T_rough","T_asp","V3")
+names(featuretable_l2) <- c("C_can","C_b2","C_2-5","S_lin","VV_var","VV_skew","VV_kurt","VV_vdr","HV_tpi","HV_var","H_25p","VV_coefvar","T_rough","T_asp","V3")
 
-names(featuretable_l3) <- c("C_can","C_b2","C_2-5","S_lin","S_curv","VV_var","VV_skew","VV_kurt","VV_cr","VV_vdr","HV_tpi","HV_var","H_25p","VV_coefvar","T_rough","T_asp","V3")
+names(featuretable_l3) <- c("C_can","C_b2","C_2-5","S_lin","VV_var","VV_skew","VV_kurt","VV_vdr","HV_tpi","HV_var","H_25p","VV_coefvar","T_rough","T_asp","V3")
 
 
 # RFE
@@ -48,27 +48,17 @@ names(featuretable_l3) <- c("C_can","C_b2","C_2-5","S_lin","S_curv","VV_var","VV
 # level 1
 control <- rfeControl(functions=rfFuncs, method="cv", number=100,returnResamp = "all")
 #set.seed(50)
-rfe_l1 <- rfe(featuretable_l1[,1:16], factor(featuretable_l1$V3), rfeControl=control,sizes=c(1:16),ntree=100,maximize = TRUE)
+rfe_l1 <- rfe(featuretable_l1[,1:14], factor(featuretable_l1$V3), rfeControl=control,sizes=c(1:14),ntree=100,maximize = TRUE)
 
 # level 2
 control <- rfeControl(functions=rfFuncs, method="cv", number=100,returnResamp = "all")
 #set.seed(50)
-rfe_l2 <- rfe(featuretable_l2[,1:16], factor(featuretable_l2$V3), rfeControl=control,sizes=c(1:16),ntree=100,maximize = TRUE)
+rfe_l2 <- rfe(featuretable_l2[,1:14], factor(featuretable_l2$V3), rfeControl=control,sizes=c(1:14),ntree=100,maximize = TRUE)
 
 # level 3
 control <- rfeControl(functions=rfFuncs, method="cv", number=100,returnResamp = "all")
 #set.seed(50)
-rfe_l3 <- rfe(featuretable_l3[,1:16], factor(featuretable_l3$V3), rfeControl=control,sizes=c(1:16),ntree=100,maximize = TRUE)
-
-
-absoluteBest_l1 <- pickSizeBest(rfe_l1$results, metric = "Accuracy", maximize = TRUE)
-within5Pct_l1 <- pickSizeTolerance(rfe_l1$results, metric = "Accuracy", maximize = TRUE,tol = 4)
-
-absoluteBest_l2 <- pickSizeBest(rfe_l2$results, metric = "Accuracy", maximize = TRUE)
-within5Pct_l2 <- pickSizeTolerance(rfe_l2$results, metric = "Accuracy", maximize = TRUE,tol = 4)
-
-absoluteBest_l3 <- pickSizeBest(rfe_l3$results, metric = "Accuracy", maximize = TRUE)
-within5Pct_l3 <- pickSizeTolerance(rfe_l3$results, metric = "Accuracy", maximize = TRUE,tol = 4)
+rfe_l3 <- rfe(featuretable_l3[,1:14], factor(featuretable_l3$V3), rfeControl=control,sizes=c(1:14),ntree=100,maximize = TRUE)
 
 save(rfe_l1,file="rfe_l1.RData")
 save(rfe_l2,file="rfe_l2.RData")
@@ -79,6 +69,15 @@ save(rfe_l3,file="rfe_l3.RData")
 load("rfe_l1.RData")
 load("rfe_l2.RData")
 load("rfe_l3.RData")
+
+absoluteBest_l1 <- pickSizeBest(rfe_l1$results, metric = "Accuracy", maximize = TRUE)
+within5Pct_l1 <- pickSizeTolerance(rfe_l1$results, metric = "Accuracy", maximize = TRUE,tol = 2)
+
+absoluteBest_l2 <- pickSizeBest(rfe_l2$results, metric = "Accuracy", maximize = TRUE)
+within5Pct_l2 <- pickSizeTolerance(rfe_l2$results, metric = "Accuracy", maximize = TRUE,tol = 4)
+
+absoluteBest_l3 <- pickSizeBest(rfe_l3$results, metric = "Accuracy", maximize = TRUE)
+within5Pct_l3 <- pickSizeTolerance(rfe_l3$results, metric = "Accuracy", maximize = TRUE,tol = 2)
 
 # RFE with opt. nof fea -- create valid confusion matrix
 
@@ -98,8 +97,8 @@ for (i in 1:100){
   trainingSet_l1 <- featuretable_l1[trainIndex_l1,]
   testingSet_l1 <- featuretable_l1[-trainIndex_l1,]
   
-  modelFit_l1 <- randomForest(trainingSet_l1[,rfe_l1$optVariables[1:3]],factor(trainingSet_l1$V3),ntree=100,importance = TRUE)
-  prediction_l1 <- predict(modelFit_l1,testingSet_l1[ ,rfe_l1$optVariables[1:3]])
+  modelFit_l1 <- randomForest(trainingSet_l1[,rfe_l1$optVariables[1:2]],factor(trainingSet_l1$V3),ntree=100,importance = TRUE)
+  prediction_l1 <- predict(modelFit_l1,testingSet_l1[ ,rfe_l1$optVariables[1:2]])
   
   conf_m_l1=confusionMatrix(factor(prediction_l1), factor(testingSet_l1$V3),mode = "everything")
   
@@ -160,8 +159,8 @@ for (i in 1:100){
   trainingSet_l2 <- featuretable_l2[trainIndex_l2,]
   testingSet_l2 <- featuretable_l2[-trainIndex_l2,]
   
-  modelFit_l2 <- randomForest(trainingSet_l2[,rfe_l2$optVariables[1:7]],factor(trainingSet_l2$V3),ntree=100,importance = TRUE)
-  prediction_l2 <- predict(modelFit_l2,testingSet_l2[ ,rfe_l2$optVariables[1:7]])
+  modelFit_l2 <- randomForest(trainingSet_l2[,rfe_l2$optVariables[1:12]],factor(trainingSet_l2$V3),ntree=100,importance = TRUE)
+  prediction_l2 <- predict(modelFit_l2,testingSet_l2[ ,rfe_l2$optVariables[1:12]])
   
   conf_m_l2=confusionMatrix(factor(prediction_l2), factor(testingSet_l2$V3),mode = "everything")
   
@@ -227,8 +226,8 @@ for (i in 1:100){
   trainingSet_l3 <- featuretable_l3[trainIndex_l3,]
   testingSet_l3 <- featuretable_l3[-trainIndex_l3,]
   
-  modelFit_l3 <- randomForest(trainingSet_l3[,rfe_l3$optVariables[1:4]],factor(trainingSet_l3$V3),ntree=100,importance = TRUE)
-  prediction_l3 <- predict(modelFit_l3,testingSet_l3[ ,rfe_l3$optVariables[1:4]])
+  modelFit_l3 <- randomForest(trainingSet_l3[,rfe_l3$optVariables[1:5]],factor(trainingSet_l3$V3),ntree=100,importance = TRUE)
+  prediction_l3 <- predict(modelFit_l3,testingSet_l3[ ,rfe_l3$optVariables[1:5]])
   
   conf_m_l3=confusionMatrix(factor(prediction_l3), factor(testingSet_l3$V3),mode = "everything")
   
@@ -270,22 +269,6 @@ prediction_l3 <- predict(modelFit_l3,testingSet_l3[ ,rfe_l3$optVariables[1:withi
 conf_m_l3=confusionMatrix(factor(prediction_l3), factor(testingSet_l3$V3),mode = "everything")
 
 # Export
-
-save(rfe_l1,file = "rfe_l1.RData")
-save(rfe_l2,file = "rfe_l2.RData")
-save(rfe_l3,file = "rfe_l3.RData")
-
-sink(paste("acc_l1.txt",sep=""))
-print(conf_m_l1)
-sink()
-
-sink(paste("acc_l2.txt",sep=""))
-print(conf_m_l2)
-sink()
-
-sink(paste("acc_l3.txt",sep=""))
-print(conf_m_l3)
-sink()
 
 save(modelFit_l1,file = "modelFit_l1.RData")
 save(modelFit_l2,file = "modelFit_l2.RData")
