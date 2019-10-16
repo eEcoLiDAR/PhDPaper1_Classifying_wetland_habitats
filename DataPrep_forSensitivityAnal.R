@@ -18,7 +18,7 @@ library(plyr)
 library(dplyr)
 
 # Set global variables
-setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Paper1_revision/")
+setwd("D:/Koma/Paper1/Revision/Results/5m/")
 
 # Import
 
