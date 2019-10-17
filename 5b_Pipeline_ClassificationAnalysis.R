@@ -163,8 +163,8 @@ for (i in 1:100){
   trainingSet_l2 <- featuretable_l2[trainIndex_l2,]
   testingSet_l2 <- featuretable_l2[-trainIndex_l2,]
   
-  modelFit_l2 <- randomForest(trainingSet_l2[,rfe_l2$optVariables[1:12]],factor(trainingSet_l2$V3),ntree=100,importance = TRUE)
-  prediction_l2 <- predict(modelFit_l2,testingSet_l2[ ,rfe_l2$optVariables[1:12]])
+  modelFit_l2 <- randomForest(trainingSet_l2[,rfe_l2$optVariables[1:within5Pct_l2]],factor(trainingSet_l2$V3),ntree=100,importance = TRUE)
+  prediction_l2 <- predict(modelFit_l2,testingSet_l2[ ,rfe_l2$optVariables[1:within5Pct_l2]])
   
   conf_m_l2=confusionMatrix(factor(prediction_l2), factor(testingSet_l2$V3),mode = "everything")
   
@@ -230,8 +230,8 @@ for (i in 1:100){
   trainingSet_l3 <- featuretable_l3[trainIndex_l3,]
   testingSet_l3 <- featuretable_l3[-trainIndex_l3,]
   
-  modelFit_l3 <- randomForest(trainingSet_l3[,rfe_l3$optVariables[1:5]],factor(trainingSet_l3$V3),ntree=100,importance = TRUE)
-  prediction_l3 <- predict(modelFit_l3,testingSet_l3[ ,rfe_l3$optVariables[1:5]])
+  modelFit_l3 <- randomForest(trainingSet_l3[,rfe_l3$optVariables[1:within5Pct_l3]],factor(trainingSet_l3$V3),ntree=100,importance = TRUE)
+  prediction_l3 <- predict(modelFit_l3,testingSet_l3[ ,rfe_l3$optVariables[1:within5Pct_l3]])
   
   conf_m_l3=confusionMatrix(factor(prediction_l3), factor(testingSet_l3$V3),mode = "everything")
   
