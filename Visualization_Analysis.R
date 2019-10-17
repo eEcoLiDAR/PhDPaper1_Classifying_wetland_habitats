@@ -187,7 +187,7 @@ response_l2_imp2$trlog_y=GMCM:::inv.logit(response_l2_imp2$class_1_y)
 pp3=ggplot(response_l2_imp1,aes(x=class_1_x,y=trlog_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab("Varition of DSM [HV_var (m)]") + ylab("Partial dependence (probability)")+ scale_color_manual(values = c("1" = "darkgreen", "2" = "green1", "3" = "gold","4"="darkolivegreen4"),
                                                                                                                                                                     name="Wetland",labels=c("Forest", "Grassland","Reedbed","Shrub")) + theme_bw(base_size = 22) + ggtitle("b)")+ xlim(0, 25)
 pp4=ggplot(response_l2_imp2,aes(x=class_1_x,y=trlog_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab("Variance of height [VV_var (m)]") + ylab("Partial dependence (probability)")+ scale_color_manual(values = c("1" = "darkgreen", "2" = "green1", "3" = "gold","4"="darkolivegreen4"),
-                                                                                                                                                                     name="Wetland",labels=c("Forest", "Grassland","Reedbed","Shrub")) + theme_bw(base_size = 22) + ggtitle("c)") + xlim(0, 10)
+                                                                                                                                                                     name="Wetland",labels=c("Forest", "Grassland","Reedbed","Shrub")) + theme_bw(base_size = 22) + ggtitle("c)") + xlim(0, 25)
 
 
 #level 3
@@ -243,4 +243,4 @@ fig5=grid.arrange(
   heights = c(0.2,3,0.2,0.2,3,0.2)
 )
 
-ggsave("Fig4.png",plot = fig5,width = 25, height = 18)
+ggsave("Fig4.png",plot = fig5,width = 28, height = 22)
