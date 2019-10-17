@@ -166,11 +166,11 @@ ggsave("Fig3.png",plot = fig4,width = 18, height = 22)
 imp <- importance(modelFit_l1)
 impvar <- rownames(imp)[order(imp[, 3], decreasing=TRUE)]
 
-id=2
+id=1
 response_l1_imp1 <- Response_l1(modelFit_l1,featuretable_l1,id)
 response_l1_imp1$trlog_y=GMCM:::inv.logit(response_l1_imp1$class_1_y)
 
-pp1=ggplot(response_l1_imp1,aes(x=class_1_x,y=trlog_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab("Vertical density ratio [VV_vdr (m)]") + ylab("Partial dependence (probability)") + scale_color_manual(values = c("1" = "gray", "2" = "aquamarine4"),name="General classes",labels=c("Planar surface", "Vegetation")) + theme_bw(base_size = 20) + ggtitle("a)") + xlim(-5, 15)
+pp1=ggplot(response_l1_imp1,aes(x=class_1_x,y=trlog_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab("Vertical density ratio [VV_vdr (m)]") + ylab("Partial dependence (probability)") + scale_color_manual(values = c("1" = "gray", "2" = "aquamarine4"),name="General classes",labels=c("Planar surface", "Vegetation")) + theme_bw(base_size = 22) + ggtitle("a)") + xlim(-5, 15)
 
 # level 2
 imp <- importance(modelFit_l2)
@@ -185,9 +185,9 @@ response_l2_imp2 <- Response_l2(modelFit_l2,featuretable_l2,id)
 response_l2_imp2$trlog_y=GMCM:::inv.logit(response_l2_imp2$class_1_y)
 
 pp3=ggplot(response_l2_imp1,aes(x=class_1_x,y=trlog_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab("Varition of DSM [HV_var (m)]") + ylab("Partial dependence (probability)")+ scale_color_manual(values = c("1" = "darkgreen", "2" = "green1", "3" = "gold","4"="darkolivegreen4"),
-                                                                                                                                                                    name="Wetland",labels=c("Forest", "Grassland","Reedbed","Shrub")) + theme_bw(base_size = 20) + ggtitle("b)")+ xlim(0, 50)
+                                                                                                                                                                    name="Wetland",labels=c("Forest", "Grassland","Reedbed","Shrub")) + theme_bw(base_size = 22) + ggtitle("b)")+ xlim(0, 50)
 pp4=ggplot(response_l2_imp2,aes(x=class_1_x,y=trlog_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab("Variance of height [VV_var (m)]") + ylab("Partial dependence (probability)")+ scale_color_manual(values = c("1" = "darkgreen", "2" = "green1", "3" = "gold","4"="darkolivegreen4"),
-                                                                                                                                                                     name="Wetland",labels=c("Forest", "Grassland","Reedbed","Shrub")) + theme_bw(base_size = 20) + ggtitle("c)") + xlim(0, 60)
+                                                                                                                                                                     name="Wetland",labels=c("Forest", "Grassland","Reedbed","Shrub")) + theme_bw(base_size = 22) + ggtitle("c)") + xlim(0, 20)
 
 
 #level 3
@@ -198,7 +198,7 @@ id=2
 response_l3_imp1 <- Response_l3(modelFit_l3,featuretable_l3,id)
 response_l3_imp1$trlog_y=GMCM:::inv.logit(response_l3_imp1$class_1_y)
 
-id=4
+id=5
 response_l3_imp2 <- Response_l3(modelFit_l3,featuretable_l3,id)
 response_l3_imp2$trlog_y=GMCM:::inv.logit(response_l3_imp2$class_1_y)
 
@@ -206,19 +206,19 @@ id=3
 response_l3_imp3 <- Response_l3(modelFit_l3,featuretable_l3,id)
 response_l3_imp3$trlog_y=GMCM:::inv.logit(response_l3_imp3$class_1_y)
 
-pp5=ggplot(response_l3_imp1,aes(x=class_1_x,y=trlog_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab("Varience of height [VV_var (m)]") + ylab("Partial dependence (probability)")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20) + ggtitle("d)") + xlim(0, 15)
-pp6=ggplot(response_l3_imp2,aes(x=class_1_x,y=trlog_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab("25th percentiles of height [H_25p (m)]") + ylab("Partial dependence (probability)")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20)  + ggtitle("e)") + xlim(0, 10)
-pp7=ggplot(response_l3_imp3,aes(x=class_1_x,y=trlog_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab("Density of vegetation below 2 m [C_b2 (m)]") + ylab("Partial dependence (probability)")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20) + ggtitle("f)")
+pp5=ggplot(response_l3_imp1,aes(x=class_1_x,y=trlog_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab("Varience of height [VV_var (m)]") + ylab("Partial dependence (probability)")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 22) + ggtitle("d)") + xlim(0, 15)
+pp6=ggplot(response_l3_imp2,aes(x=class_1_x,y=trlog_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab("25th percentiles of height [H_25p (m)]") + ylab("Partial dependence (probability)")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 22)  + ggtitle("e)") + xlim(0, 10)
+pp7=ggplot(response_l3_imp3,aes(x=class_1_x,y=trlog_y,color=factor(class))) + geom_line(size=2,show.legend = FALSE) + xlab("Density of vegetation below 2 m [C_b2 (m)]") + ylab("Partial dependence (probability)")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 22) + ggtitle("f)")
 
 #legends
 
-p00_b=ggplot(response_l1_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = TRUE) + xlab(impvar[3]) + ylab("Partial dependence (logit of probability)") + scale_color_manual(values = c("1" = "gray", "2" = "aquamarine4"),name="Vegetation",labels=c("Planar surface", "Vegetation")) + theme_bw(base_size = 20) + theme(legend.position="bottom")
+p00_b=ggplot(response_l1_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = TRUE) + xlab(impvar[3]) + ylab("Partial dependence (logit of probability)") + scale_color_manual(values = c("1" = "gray", "2" = "aquamarine4"),name="Vegetation",labels=c("Planar surface", "Vegetation")) + theme_bw(base_size = 24) + theme(legend.position="bottom")
 legend_00_b <- get_legend(p00_b)
 
-p02_b=ggplot(response_l2_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = TRUE) + xlab(impvar[2]) + ylab("Partial dependence (probability)")+ scale_color_manual(values = c("1" = "darkgreen", "2" = "green1", "3" = "gold","4"="darkolivegreen4"),name="Wetland",labels=c("Forest", "Grassland","Reedbed","Shrub")) + theme_bw(base_size = 20) + theme(legend.position="bottom")
+p02_b=ggplot(response_l2_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = TRUE) + xlab(impvar[2]) + ylab("Partial dependence (probability)")+ scale_color_manual(values = c("1" = "darkgreen", "2" = "green1", "3" = "gold","4"="darkolivegreen4"),name="Wetland",labels=c("Forest", "Grassland","Reedbed","Shrub")) + theme_bw(base_size = 24) + theme(legend.position="bottom")
 legend_02_b <- get_legend(p02_b)
 
-p03_b=ggplot(response_l3_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = TRUE) + xlab(impvar[6]) + ylab("Partial dependence (probability)")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 20) + theme(legend.position="bottom")
+p03_b=ggplot(response_l3_imp1,aes(x=class_1_x,y=class_1_y,color=factor(class))) + geom_line(size=2,show.legend = TRUE) + xlab(impvar[6]) + ylab("Partial dependence (probability)")+ scale_color_manual(values = c("1"="tan2","2"="gold","3"="chocolate4"),name="Reedbed",labels=c("Land reed rich","Land reed poor","Water reed")) + theme_bw(base_size = 24) + theme(legend.position="bottom")
 legend_03_b <- get_legend(p03_b)
 
 #selected parc.dep.
