@@ -135,9 +135,9 @@ Response_l2 = function(forest_l1,featuretable_l1,id) {
 }
 
 Response_l3 = function(forest_l1,featuretable_l1,id) {
-  p1=partialPlot(forest_l1, featuretable_l1, impvar[id], "Rk", plot=FALSE)
-  p2=partialPlot(forest_l1, featuretable_l1, impvar[id], "Rl", plot=FALSE)
-  p3=partialPlot(forest_l1, featuretable_l1, impvar[id], "Rw", plot=FALSE)
+  p1=partialPlot(forest_l1, featuretable_l1, impvar[id], "P", plot=FALSE)
+  p2=partialPlot(forest_l1, featuretable_l1, impvar[id], "R", plot=FALSE)
+  p3=partialPlot(forest_l1, featuretable_l1, impvar[id], "W", plot=FALSE)
   
   response_l1_c1 <- data.frame(p1[["x"]], p1[["y"]])
   names(response_l1_c1)[1]<-"class_1_x"
@@ -162,7 +162,7 @@ Response_l3 = function(forest_l1,featuretable_l1,id) {
 add_varclass = function(importance_frame) {
   
   importance_frame$varclass <- NA
-  importance_frame$varclass[importance_frame$variable=="C_can" | importance_frame$variable=="C_puls" | importance_frame$variable=="C_2-5" | importance_frame$variable=="C_b2"] <- 1
+  importance_frame$varclass[importance_frame$variable=="C_can" | importance_frame$variable=="C_puls" | importance_frame$variable=="C_2.5" | importance_frame$variable=="C_b2"] <- 1
   importance_frame$varclass[importance_frame$variable=="S_curv" | importance_frame$variable == "S_lin" | importance_frame$variable == "S_plan" | importance_frame$variable == "S_sph" | importance_frame$variable == "S_ani"] <-2
   importance_frame$varclass[importance_frame$variable == "VV_sd" | importance_frame$variable == "VV_var" | importance_frame$variable=="VV_skew" | importance_frame$variable == "VV_kurt" | importance_frame$variable == "VV_cr" | importance_frame$variable == "VV_vdr"
                             | importance_frame$variable == "VV_simp" | importance_frame$variable == "VV_shan" | importance_frame$variable == "VV_coefvar"] <- 3

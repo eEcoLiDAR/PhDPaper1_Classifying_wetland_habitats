@@ -26,9 +26,13 @@ setwd("D:/Koma/Paper1/Revision/Results/5m/")
 
 # Import
 
-featuretable_l1=read.csv("featuretable_l1_5_500.csv")
-featuretable_l2=read.csv("featuretable_l2_5_500.csv")
-featuretable_l3=read.csv("featuretable_l3_5_500.csv")
+#featuretable_l1=read.csv("featuretable_l1_5_100.csv")
+#featuretable_l2=read.csv("featuretable_l2_5_100.csv")
+#featuretable_l3=read.csv("featuretable_l3_5_100.csv")
+
+featuretable_l1=read.csv("featuretable_level1_500_5.csv")
+featuretable_l2=read.csv("featuretable_level2_500_5.csv")
+featuretable_l3=read.csv("featuretable_level3_500_5.csv")
 
 featuretable_l1=featuretable_l1[c("cancov","dens_perc_b2","dens_perc_b2_5","linearity","zvar","zskew","zkurto","vertdenrat","tpi","var_dsm","z025quantile","zcoeffvar","roughness.2","aspect","V3")]
 featuretable_l2=featuretable_l2[c("cancov","dens_perc_b2","dens_perc_b2_5","linearity","zvar","zskew","zkurto","vertdenrat","tpi","var_dsm","z025quantile","zcoeffvar","roughness.2","aspect","V3")]
@@ -46,17 +50,17 @@ names(featuretable_l3) <- c("C_can","C_b2","C_2.5","S_lin","VV_var","VV_skew","V
 # RFE
 
 # level 1
-control <- rfeControl(functions=rfFuncs, method="cv", number=10,returnResamp = "all")
+control <- rfeControl(functions=rfFuncs, method="cv", number=100,returnResamp = "all")
 #set.seed(50)
 rfe_l1 <- rfe(featuretable_l1[,1:14], factor(featuretable_l1$V3), rfeControl=control,sizes=c(1:14),ntree=100,maximize = TRUE)
 
 # level 2
-control <- rfeControl(functions=rfFuncs, method="cv", number=10,returnResamp = "all")
+control <- rfeControl(functions=rfFuncs, method="cv", number=100,returnResamp = "all")
 #set.seed(50)
 rfe_l2 <- rfe(featuretable_l2[,1:14], factor(featuretable_l2$V3), rfeControl=control,sizes=c(1:14),ntree=100,maximize = TRUE)
 
 # level 3
-control <- rfeControl(functions=rfFuncs, method="cv", number=10,returnResamp = "all")
+control <- rfeControl(functions=rfFuncs, method="cv", number=100,returnResamp = "all")
 #set.seed(50)
 rfe_l3 <- rfe(featuretable_l3[,1:14], factor(featuretable_l3$V3), rfeControl=control,sizes=c(1:14),ntree=100,maximize = TRUE)
 
@@ -71,13 +75,13 @@ load("rfe_l2.RData")
 load("rfe_l3.RData")
 
 absoluteBest_l1 <- pickSizeBest(rfe_l1$results, metric = "Accuracy", maximize = TRUE)
-within5Pct_l1 <- pickSizeTolerance(rfe_l1$results, metric = "Accuracy", maximize = TRUE,tol = 2.5)
+within5Pct_l1 <- pickSizeTolerance(rfe_l1$results, metric = "Accuracy", maximize = TRUE,tol = 5)
 
 absoluteBest_l2 <- pickSizeBest(rfe_l2$results, metric = "Accuracy", maximize = TRUE)
-within5Pct_l2 <- pickSizeTolerance(rfe_l2$results, metric = "Accuracy", maximize = TRUE,tol = 2.5)
+within5Pct_l2 <- pickSizeTolerance(rfe_l2$results, metric = "Accuracy", maximize = TRUE,tol = 5)
 
 absoluteBest_l3 <- pickSizeBest(rfe_l3$results, metric = "Accuracy", maximize = TRUE)
-within5Pct_l3 <- pickSizeTolerance(rfe_l3$results, metric = "Accuracy", maximize = TRUE,tol = 2.5)
+within5Pct_l3 <- pickSizeTolerance(rfe_l3$results, metric = "Accuracy", maximize = TRUE,tol = 5)
 
 # RFE with opt. nof fea -- create valid confusion matrix
 
