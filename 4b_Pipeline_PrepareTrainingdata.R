@@ -27,6 +27,8 @@ n=500 #number of sample
 lidarmetrics_l1=stack(paste("lidarmetrics_l1_masked_",res,"m.grd",sep=""))
 lidarmetrics_l23=stack(paste("lidarmetrics_l23_masked_",res,"m.grd",sep=""))
 
+lidarmetrics_l23[is.na(lidarmetrics_l23)]<-0
+
 vegetation=readOGR(dsn="vlakken_union_structuur.shp")
 
 ### Create the defined classes
@@ -83,7 +85,7 @@ classes1.df$id <- seq(1,length(classes1.df$V3))
 coordinates(classes1.df)=~coords.x1+coords.x2
 proj4string(classes1.df)<- CRS("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")
 
-d1 <- sdmData(V3~.,train=classes1.df,predictors = lidarmetrics_l1)
+d1 <- sdmData(V3~.,train=classes1.df,predictors = lidarmetrics_l23)
 data=d1@features
 classes1.df2 <- as(classes1.df, "data.frame")
 

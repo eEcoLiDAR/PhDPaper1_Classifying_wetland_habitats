@@ -13,14 +13,14 @@ library(dplyr)
 #source("D:/GitHub/eEcoLiDAR/PhDPaper1_Classifying_wetland_habitats/Function_Classification.R") #set where the Function*.R file located
 source("D:/Koma/GitHub/PhDPaper1_Classifying_wetland_habitats/Function_Classification.R")
 
-res=2.5
+res=5
 
 # Set working dirctory
 workingdirectory=paste("D:/Koma/Paper1/Revision/Results/",res,"m/",sep="")
 #workingdirectory="D:/Koma/Paper1_ReedStructure/Results_2019March/"
 setwd(workingdirectory)
 
-n=1000 #number of sample
+n=3000 #number of sample
 
 # Import
 lidarmetrics_l1=stack(paste("lidarmetrics_l1_masked_",res,"m.grd",sep=""))
@@ -78,7 +78,7 @@ classes2 = rgdal::readOGR(paste("selpolyper_level2_vtest_",n,".shp",sep=""))
 classes3 = rgdal::readOGR(paste("selpolyper_level3_vtest_",n,".shp",sep=""))
 
 # Intersection for classification
-featuretable_l1=Create_Intersection(classes1,lidarmetrics_l1)
+featuretable_l1=Create_Intersection(classes1,lidarmetrics_l23)
 write.table(featuretable_l1,paste("featuretable_level1_",n,"_",res,".csv",sep=""),row.names=FALSE,sep=",")
 
 featuretable_l2=Create_Intersection(classes2,lidarmetrics_l23)
