@@ -22,7 +22,7 @@ library(ENMTools)
 library(corrplot)
 
 # Set global variables
-workdir="D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Paper1_revision/"
+workdir="D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Results_forreview2019Oct/"
 res=5
 
 setwd(workdir)
@@ -38,4 +38,8 @@ v
 v <- vifcor(lidarmetrics,th=0.6,maxobservations=10000)
 v
 
-saveRDS(v,file="vif_results_5m.rds")
+#saveRDS(v,file="vif_results_5m.rds")
+
+
+
+
