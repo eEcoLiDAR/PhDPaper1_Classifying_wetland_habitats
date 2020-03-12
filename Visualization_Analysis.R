@@ -23,7 +23,7 @@ source("D:/GitHub/eEcoLiDAR/PhDPaper1_Classifying_wetland_habitats/Function_Clas
 #source("C:/Koma/Github/komazsofi/myPhD_escience_analysis/Paper1_inR_v2/Function_Classification.R")
 
 # Set global variables
-setwd("D:/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Results_forreview2019Oct/")
+setwd("D:/Sync/_Amsterdam/_PhD/Chapter1_habitat_type_classification/3_Dataprocessing/Results_forreview2019Oct/")
 #setwd("D:/Koma/Paper1/Revision/Results/5m/")
 #setwd("C:/Koma/Sync/_Amsterdam/02_Paper1_ReedbedStructure_onlyALS/3_Dataprocessing/Results_09April/")
 
@@ -78,9 +78,9 @@ grid.arrange(
   nrow = 1
 )
 
-t_l1 <- textGrob("Level 1: Vegetation",gp=gpar(fontsize=30, col="black", fontface="bold"))
-t_l2 <- textGrob("Level 2: Wetland habitat",gp=gpar(fontsize=30, col="black", fontface="bold"))
-t_l3 <- textGrob("Level 3: Reedbed habitat",gp=gpar(fontsize=30, col="black", fontface="bold"))
+t_l1 <- textGrob("Level 1: Wetland",gp=gpar(fontsize=30, col="black", fontface="bold"))
+t_l2 <- textGrob("Level 2: Land cover types",gp=gpar(fontsize=30, col="black", fontface="bold"))
+t_l3 <- textGrob("Level 3: Reedbed habitats",gp=gpar(fontsize=30, col="black", fontface="bold"))
 
 # Fig: every results from RFE
 #l1
@@ -159,7 +159,7 @@ fig4=grid.arrange(
   heights = c(0.2,4,4,1)
 )
 
-ggsave("Fig3.png",plot = fig4,width = 18, height = 22)
+ggsave("Fig3_rev2.png",plot = fig4,width = 18, height = 22)
 
 # Response curves - partial dependence plot
 # level 1
@@ -243,4 +243,4 @@ fig5=grid.arrange(
   heights = c(0.2,3,0.2,0.2,3,0.2)
 )
 
-ggsave("Fig5.png",plot = fig5,width = 28, height = 22)
+ggsave("Fig5_rev2.png",plot = fig5,width = 28, height = 22)
