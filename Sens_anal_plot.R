@@ -16,16 +16,16 @@ x_2m <- data.frame("OA"=c(79,87,87,70,69,69,69,76,75),"NofAnn"=c(100,500,1000,10
 c=ggplot(data=x_2m)+geom_point(aes(x=NofAnn,y=OA,color=Level),size=3)+geom_line(aes(x=NofAnn,y=OA,color=Level),size=2)+theme_minimal(base_size = 17)+
   xlab("Number of annotation points")+ylab("Mean overall accuracy [%]")+ggtitle("c) Spatial resolution: 2.5 m")
 
-x_1m <- data.frame("OA"=c(80,83,62,66,65,65),"NofAnn"=c(100,500,100,500,100,500),"Level"=c('1','1','2','2','3','3'))
+x_1m <- data.frame("OA"=c(80,83,0,62,66,0,65,65,0),"NofAnn"=c(100,500,1000,100,500,1000,100,500,1000),"Level"=c('1','1','1','2','2','2','3','3','3'))
 d=ggplot(data=x_1m)+geom_point(aes(x=NofAnn,y=OA,color=Level),size=3)+geom_line(aes(x=NofAnn,y=OA,color=Level),size=2)+theme_minimal(base_size = 17)+
   xlab("Number of annotation points")+ylab("Mean overall accuracy [%]")+ggtitle("d) Spatial resolution: 1 m")
 
 
 fig=grid.arrange(
-  a,
-  b,
-  c,
-  d,
+  a+ylim(60,90)+xlim(100,1000)+scale_x_continuous(breaks = c(100,500,1000)),
+  b+ylim(60,90)+xlim(100,1000)+scale_x_continuous(breaks = c(100,500,1000)),
+  c+ylim(60,90)+xlim(100,1000)+scale_x_continuous(breaks = c(100,500,1000)),
+  d+ylim(60,90)+xlim(100,1000)+scale_x_continuous(breaks = c(100,500,1000)),
   ncol=2,
   nrow=2
 )
